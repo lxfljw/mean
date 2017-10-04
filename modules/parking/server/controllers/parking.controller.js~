@@ -1,0 +1,20 @@
+'use strict';
+
+var _ = require('lodash'),
+  fs = require('fs'),
+  path = require('path'),
+  mongoose = require('mongoose'),
+  multer = require('multer'),
+  config = require(path.resolve('./config/config')),
+  validator = require('validator');
+
+
+exports.userInfo = function (req, res) {}
+exports.searchParking = function (req, res) {}
+exports.reservPearking = function (req, res) {}
+exports.cancleReservetion = function (req, res) {}
+exports.startParking = function (req, res) {}
+exports.endParking = function (req, res) {}
+exports.getParkingHistory= function (req, res) {}
+exports.getCoupons= function (req, res) {}
+
