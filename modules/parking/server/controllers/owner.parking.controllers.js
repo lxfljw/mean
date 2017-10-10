@@ -7,135 +7,93 @@ var _ = require('lodash'),
   multer = require('multer'),
   config = require(path.resolve('./config/config')),
   validator = require('validator');
+  var ParkingService= require('./ParkingService');
+  const chalk = require('chalk');
 
 
-exports.parkingInfo= function (req, res) {
+exports.parkingInfo= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.parkingInfo(id)
+				                 .then( parkinginfo =>{
+				              res.status(200).json(parkinginfo)
+				               }).catch(next)
+				    console.log(chalk.blue('function parkingInfo is OK'))             
+					 
+				}
 
-	 res.status(200).send({
 
-         message :  
-		
-			   {
+exports.getLog= function (req, res,next) {
+	               console.log(chalk.blue('function getLog is running')) 	 
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getLog(id)
+				                 .then( getlog =>{
+				              res.status(200).json(getlog)
+				               }).catch(next)
+				  
+				}
 
-			  "last_updated": "2015-06-15T12:31:00",
-			  "last_downloaded": "2015-06-15T12:31:25",
-			  "data_source": "http://examplecity.com",
-			  "lots": [
-			    {
-			      "coords": {
-			        "lat": 51.05031,
-			        "lng": 13.73754
-			      },
-			      "name": "Altmarkt",
-			      "total": 400,
-			      "free": 235,
-			      "city": "open|closed|nodata",
-			      "id": "lot_id",
-			      "forecast": true|false,
-			      "region": "Region X", // optional
-			      "address": "Musterstraße 5", // optional
-			      "lot_type": "Parkhaus" // optional
-			    }],
-			   
-			}
 
+exports.getSpaceIdStatus= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getSpaceIdStatus(id)
+				                 .then( spaceid =>{
+				              res.status(200).json(spaceid)
+				               }).catch(next)
+					 
+				}
 
-			       });
 
 
 
-}
+exports.updateSpaceIdStatus= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.updateSpaceIdStatus(id)
+				                 .then( updatespaceidstatus =>{
+				              res.status(200).json(updatespaceidstatus )
+				               }).catch(next)
+					 
+				}
 
 
 
-exports.getLog= function (req, res) {
+exports.getEvents= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getEvents(id)
+				                 .then( getevents =>{
+				              res.status(200).json(getevents)
+				               }).catch(next)
+					 
+				}
 
-	 res.status(200).send({
 
-         message :  ''
-		
 
-       });
 
+exports.getHistory= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getHistory(id)
+				                 .then( gethistory =>{
+				              res.status(200).json(gethistory)
+				               }).catch(next)
+					 
+				}
 
 
-}
 
 
 
-exports.getSpaceId= function (req, res) {
 
-	 res.status(200).send({
-
-         message :  ''
-		
-
-       });
-
-
-
-}
-
-
-
-
-exports.putSpaceId= function (req, res) {
-
-	 res.status(200).send({
-
-         message :  ''
-		
-
-       });
-
-
-
-}
-
-
-
-
-exports.getEvents= function (req, res) {
-
-	 res.status(200).send({
-
-         message :  ''
-		
-
-       });
-
-
-
-}
-
-
-
-
-exports.getHistory= function (req, res) {
-
-	 res.status(200).send({
-
-         message : ''
-		
-
-       });
-
-
-
-}
-
-
-
-
-exports.ModifyThePrice= function (req, res) {
-
-	 res.status(200).send({
-
-         message :  ''
-		
-
-       });
-
-
-
-}
+exports.modifyThePrice= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.modifyThePrice(id)
+				                 .then(  modifytheprice=>{
+				              res.status(200).json( modifytheprice)
+				               }).catch(next)
+					 
+				}
