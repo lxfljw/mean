@@ -1,14 +1,24 @@
 var Promise = require("bluebird");
 const chalk = require('chalk');
- 
+import CarModel from '../models/car.server.modules.js';
+import Transaction from '../models/transaction.server.models';
+import UserProfile from '../models/userProfile.server.models';
+import Parking from '../models/parking.server.models';
+  
 class ParkingService {
-
-     searchParking(id)  {
+     // parking_type == 'indoor'  'outdoor'
+     searchParking(parking_type)  {
         return new Promise((resolve, reject) => {
 
-          const projection = { _id: 0, id: 1, title: 1, format: 1 } 
-          const query = {  }    
-
+          const query = { parking_id:""  } 
+          const projection = { _id: 0,parking_id:1,location:1,price:1,type:1} 
+            
+          Parking.find(query, projection, (err, parkings) => {
+             if (err) {  reject(new Error('An error occured fetching a parking_id ')) }
+             resolve(parkings);
+          });
+    
+/*
           var data = {   
                 "type": "FeatureCollection",   "features":
                  [
@@ -37,82 +47,28 @@ class ParkingService {
 
             if (id==0) { reject(new Error('An error occured fetching a parking_id '))}
             else resolve(data);
-         
-})} ;
+  */       
+          })
+      } ;
 
 
 
 
-           usersCoupons(id){
-
-            return new Promise((resolve,reject) =>{
-              const projection = {_id:  0 ,id : 1,  title: 1, format: 1 }
-              const cquery = {  }
-
-              var data =  [{
-                              id:"2323",
-                              header: "1 hr Free",
-                              usedStatus: false,
-                              description: "国购停车场限定",
-                              meta: "2015-12-31 12:00AM",
-                              images: "kuogo_logo.png"
-                             },
-                           {
-                              id:"2376",
-                              header: "15min Free",
-                              usedStatus: false,
-                              description: "国购停车场限定",
-                              meta: "2015-12-31 12:00AM",
-                              images: "kuogo_logo.png"
-                          }]
-
-             if (id==0) { reject(new Error ('An error An error occured fetching a coupon'))} 
-             else resolve(data) ;       
-
-            } )
-            };
-          
-
-
-             manualPayment(id){
-
-              return new Promise((resolve,reject)=>{
-                          const projection = {_id:  0 ,id : 1,  title: 1, format: 1 }
-                          const cquery = {  } 
-                          
-                            var data = {
-                            license_id: "京A BC123",
-                            entrance_timestamp: "2015/8/21 15:20:00",
-                            parking_time: "1小时12分钟",
-                            over_time: false,
-                            payment: "20.00",
-                            coupon: true,
-                            coupon_id: "Af3322",
-                            coupon_amount: "5.00",
-                            paid: "5.00",
-                            payment_total: "10.00",
-                            test: "test"
-                          }     
-                       
-                      if (id == 0){
-                        const chalk = require('chalk');
-                        console.log(chalk.yellow('error'));
-                        reject(new Error('You can not finish manualPayment! '))
-                      }
-                      else resolve(data);
-              })};
-
-
-
-
-
-            parkingHistory(id){
+ 
+     parkingHistory(id){
 
                return new Promise ((resolve,reject)=>{
-                          const projection = {_id:  0 ,id : 1,  title: 1, format: 1 }
-                          const cquery = {  } 
+                          const query = {parking_id:"123"  } ;
+                          const projection = {_id:  0 , parking_id:1 }; 
+                          Parking.findOne(query,projection,(err,parkinghistory)=>{
+                            if(err){
+                              reject(new Error('This parking_id is not exist!'))
+                            };
+                            else 
+                              resolve(parkinghistory)
+                          })
 
-                          var data =   [{     
+                    /*    var data =   [{     
                           parking_id: "BC12345120456",
                           license_id: "京A BC123",
                           parkinglot: "陆家嘴国购停车场",
@@ -135,17 +91,56 @@ class ParkingService {
                         const chalk = require('chalk');
                         console.log(chalk.blue('Data status is OK'));
                         resolve(data);
-                      };
+                      };*/
 
     })};
 
 
+      
 
-    stopParking(id){
+      startParking(id){
+
+                  return new Promise((resolve,reject)=>{
+                  const query = {parking_id:"123",parkingSlots.$.slotId : "123", };
+                  const projection = {_id:0, parking_id:1 , parkingSlots:1 };
+                  Parking.findOne(query,projection,(err,parking_id)=>{
+                    if (err){
+                      reject(new Error("Fail to start Parking!"))
+                    };
+                    else resolve(parking_id)
+                  })
+/*
+                  var data =  {
+                     parkinglot: "陆家嘴国购停车场",
+                     parking_id: "BC12345120456",
+                          
+                     license_id: "京A BC123",
+                    timeStamp: "2015/8/21 15:20:00", 
+                     
+                     status:"occupation_start"   
+                   }
+
+
+                  if(id==0){
+                    reject(new Error('There is an error wtth starting parking!'))
+                  }  
+                   else resolve(data)
+*/
+                })
+              }
+
+
+     stopParking(id){
     return new Promise((resolve,reject) => {
-                      const projection = {_id:0, id:1,tittle: 1, format : 1  }
-                      const query = {}
-
+                      const query = {parking_id:"10"}
+                      const projection = {_id:0, parking_id:1  }
+                      Parking.findOne(query,projection,(err,paking_id)=>{
+                        if(err){
+                          reject(new Error("Fail to stop parking!"))
+                        };
+                        else resolve(parking_id)
+                      })
+/*
                       var data = {
                          parkinglot: "陆家嘴国购停车场",
                          parking_id: "BC12345120456",
@@ -164,109 +159,24 @@ class ParkingService {
                         resolve(data)
                         console.log(chalk.blue('Data status is OK'))
                       }
+ */
                     })
 
-                    }
+ }
 
 
-  startParking(id){
-                return new Promise((resolve,reject)=>{
-                  const projection = {_id:0, id:1, tittle:1, format:1 }
-                  const query = { }
 
-                  var data =  {
-                     parkinglot: "陆家嘴国购停车场",
-                     parking_id: "BC12345120456",
-                          
-                     license_id: "京A BC123",
-                    timeStamp: "2015/8/21 15:20:00", 
-                     
-                     status:"occupation_start"   
-                   }
-
-
-                  if(id==0){
-                    reject(new Error('There is an error wtth starting parking!'))
-                  }  
-                   else resolve(data)
-                })
-              }
-
-
-cancleReservetion(id){
-      return new Promise((resolve,reject)=>{
-                const projection = {_id:0, id:1, tittle:1, format:1 }
-                const query = { }
-
-                var data =    {
-                   reservation_id: "BC12345120456",
-                   status:"cancel_success",
-                   
-                   license_id: "京A BC123",
-                   
-                   timeStamp: "2015/8/21 15:20:00", 
-                   time: 600,
-                   
-                   parkinglot: "陆家嘴国购停车场",
-                   parking_id: "BC12345120456"          
-                 }    
-                  if(id==0){
-                    reject(new Error('There is an error wtth canclereservation!'))  }
-            
-                  else resolve(data)
-              })
-            
-         }
- 
-reserveParking(id){
-              return new Promise((resolve,reject)=>{
-                const projetion = {_id:0, id:1, tittle:1, format:1 }
-                const query = { }
-
-                var data = {
-                   reservation_id: "BC12345120456",
-                   status:"reserve_success", 
-                   license_id: "京A BC123",
-                   timeStamp: "2015/8/21 15:20:00", 
-                   time: 600,   
-                   parkinglot: "陆家嘴国购停车场",
-                   parking_id: "BC12345120456"          
-                  }  
-
-               if(id==0){reject(new Error('Fail to reserve parking!')) }
-               else resolve (data)
-              })
-            }
-
-userGetInfo(id){
+  parkingInfo(id){
             return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-
-              var data = {
-                          name:"xxx",
-                          mobile:"392928181",
-                          email:"38828282@qq.com", 
-                          cars:[
-                           
-                              { "license": "京A BC123" }, 
-                              { "license": "京B BC123" }
-                           ]
-                        }
-
-
-              if(id==0){reject(new Error('Fail to get your infomation!')) }
-              else resolve (data)
-
-            })
-          }
-
-
-parkingInfo(id){
-            return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-
+                      const query = {parking_id:"10"}
+                      const projection = {_id:0, parking_id:1  }
+                      Parking.findOne(query,projection,(err,paking_id)=>{
+                        if(err){
+                          reject(new Error("Fail to stop parking!"))
+                        };
+                        else resolve(parking_id)
+                      })
+/*
               var data =  {
 
                           "last_updated": "2015-06-15T12:31:00",
@@ -293,40 +203,115 @@ parkingInfo(id){
 
               if(id==0){reject(new Error('Fail to get parking infomation! ')) }
               else {resolve (data);console.log(chalk.blue('Data from function parkingInfo'))}
+*/
         })
             }
 
 
 
 
-
-          getLog(id){
+ getSpaceIdStatus(id){
             return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-              var data = {name:"getLog"}
-              if(id==0){reject(new Error('Fail ')) }
-              else {resolve (data);console.log(chalk.blue('Data from function parkingInfo'))}
-        })
+                      const query = {parkingSlots.$.status}
+                      const projection = {_id:0, parkingSlots:1  }
+                      Parking.findOne(query,projection,(err,status)=>{
+                        if(err){
+                          reject(new Error("Fail to get space status!"))
+                        };
+                        else resolve(status)
+                      })
 
-            }
-          
-
-
-         getSpaceIdStatus(id){
-            return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
+             /*
               var data = {test:"test getSpaceIdStatus"}
               if(id==0){reject(new Error('Fail ')) }
               else resolve (data)
+*/
+            })
+          }
+
+
+
+  updateSpaceIdStatus (id){
+              return new Promise((resolve,reject)=>{
+                      const query = {parkingSlots.$.status}
+                      const projection = {_id:0, parkingSlots:1  }
+                      Parking.findOneAndUpdate(query,projection,(err,status)=>{
+                        if(err){
+                          reject(new Error("Fail to get or update space status!"))
+                        };
+                        else resolve(status)
+                      })
+
+
+/*
+              var data = {test:"test updateSpaceIdStatus"}
+              if(id==0){reject(new Error('Fail ')) }
+              else resolve (data)
+*/
 
             })
           }
 
 
 
-           getEvents(id){
+getParkingId (id){
+          return new Promise((resolve,reject)=>{
+                      const query = {parking_id}
+                      const projection = {_id:0, parking_id:1  }
+                      Parking.findOne(query,projection,(err,parking_id)=>{
+                        if(err){
+                          reject(new Error("Fail to get parking_id!"))
+                        };
+                        else resolve(parking_id)
+                      })
+  /*
+            var data = {test:"test getParkingId"}
+
+            if(id==0){ reject(new Error('fail to get data!'))}
+            else resolve  (data)  
+ */           
+          })
+         }
+
+
+  getSpaceId (id){
+          return new Promise((resolve,reject)=>{
+                      const query = {parking_id}
+                      const projection = {_id:0, parking_id:1  }
+                      Parking.findOne(query,projection,(err,paarking_id)=>{
+                        if(err){
+                          reject(new Error("Fail to get space status!"))
+                        };
+                        else resolve(parking_id)
+                      })
+
+/*             
+            var data = {test:"test getSpaceId "}
+
+            if(id==0){ reject(new Error('fail to get data!'))}
+            else resolve  (data) 
+ */ 
+          })
+         }
+
+
+ illegalParking (id){
+          return new Promise((resolve,reject)=>{
+            var projetion={ _id:0, id:1, tittle:1, format:1 }
+            var query = { }
+
+            var data = {test:"test illegalParking "}
+
+            if(id==0){ reject(new Error('fail to get data!'))}
+            else resolve  (data)  
+          })
+         }
+
+
+  
+
+ 
+  getEvents(id){
             return new Promise((resolve,reject)=>{
               const projetion = {_id:0, id:1, tittle:1, format:1 }
               const query = { }
@@ -340,32 +325,7 @@ parkingInfo(id){
 
 
 
-          updateSpaceIdStatus (id){
-            return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-              var data = {test:"test updateSpaceIdStatus"}
-              if(id==0){reject(new Error('Fail ')) }
-              else resolve (data)
-
-            })
-          }
-
-
-
-           getHistory(id){
-            return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-              var data = {test:"test   getHistory"}
-              if(id==0){reject(new Error('Fail ')) }
-              else resolve (data)
-
-            })
-          }
-
-
-           modifyThePrice(id){
+ modifyThePrice(id){
             return new Promise((resolve,reject)=>{
               const projetion = {_id:0, id:1, tittle:1, format:1 }
               const query = { }
@@ -377,98 +337,12 @@ parkingInfo(id){
           }
 
 
-         userHistory(id){
-          return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
-
-            var data =   [{
-                parking_id: "BC12345120456",
-                license_id: "京A BC123",
-                parkinglot: "陆家嘴国购停车场",
-                entrance_timestamp: "2015/8/21 15:20:00",
-                parkingTime: "1小时12分钟",
-                preOrder: true,
-                invoice: false,
-                payment: "20.00",
-                coupon_amount: "5.00",
-                payment_total: "10.00"
-              }]
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
-          })
-         }
-                   
-         userInfo(id){
-          return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
-
-            var data = 
-               {
-                name:'xxx',
-                mobile:"392928181",
-                email:"38828282@qq.com",
-                
-                cars:[{   
-                             "license": "京A BC123"
-                        }, {
-                             "license": "京B BC123"
-                        }]
-               }
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
-          })
-         }
-
-
-        illegalParking (id){
-          return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
-
-            var data = {test:"test illegalParking "}
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
-          })
-         }
-
-
-        getParkingId (id){
-          return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
-
-            var data = {test:"test getParkingId"}
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
-          })
-         }
-
-
-         getSpaceId (id){
-          return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
-
-            var data = {test:"test getSpaceId "}
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
-          })
-         }
 
 
 
-}
  
 
-
-
+ }
 
 
 module.exports = ParkingService; 
