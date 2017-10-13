@@ -18,8 +18,9 @@ const transactionSchema = Schema({
   hostID: { type: Schema.Types.ObjectId, required: true },
   guestID: { type: Schema.Types.ObjectId, required: true },
   lotID: { type: Schema.Types.ObjectId }
+  
 
 });
 
-var Transaction = mongoose.model('Transaction', transactionSchema);
+var Transaction = mongoose.model('transactions', transactionSchema);
 module.exports = Transaction; 

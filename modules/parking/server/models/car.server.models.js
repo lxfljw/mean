@@ -19,5 +19,8 @@ var CarModelSchema = new mongoose.Schema({
 });
  
 
-var CarModel = mongoose.model('CarModel', CarModelSchema);
+var CarModel = mongoose.model('carmodels', CarModelSchema);
 module.exports = CarModel; 
+
+
+

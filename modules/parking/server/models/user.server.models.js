@@ -8,11 +8,10 @@
   validator = require('validator'),
   chalk = require('chalk');
 
-
-const userProfileSchema = Schema({
-  username: { type: String, required: true },
+  const userProfileSchema = Schema({
+  name: { type: String, required: true },
   email: { type: String, required: true },
-  userID: { type: Schema.Types.ObjectId, required: true }，
+  userID: { type: Schema.Types.ObjectId },
   mobile:{type: Number},  
   cars: [{ type: Schema.Types.ObjectId, ref: 'car' }],
   transactions: [{ type: Schema.Types.ObjectId, ref: 'transaction' }],
@@ -22,6 +21,8 @@ const userProfileSchema = Schema({
 });
 
 
-var UserProfile = mongoose.model('UserProfile', userProfileSchema);
-module.exports = UserProfile; 
+var User = mongoose.model('userprofiles', userProfileSchema);
+module.exports = User; 
+  
+
   

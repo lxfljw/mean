@@ -1,3 +1,4 @@
+
 'use strict';
 
  var mongoose = require('mongoose'),
@@ -14,17 +15,17 @@ const parkingSchema = Schema({
   parking_id: { type:Number },
   location: { type: String },
   price:{type:Number } ,
-  type:{type:String}
+  type : {type:String},
 
   parkingType : {type:String},                    
   parkingOwner : {type:String},       
   description: { type: String },
-  address: { type: String, required: true },
+  address: { type: String },
   createdAt : Date,
   updatedAt : Date,
   geoLocation : {
       type: {type:String},
-      coordinates:[{type:SchemaTypes.Double}]
+      coordinates:[{lat:Number,lng:Number}]
   },
   parkingArea : String,
   parkingAreaType : String,  
@@ -34,7 +35,7 @@ const parkingSchema = Schema({
   closeTime : Date,
   
  
-  Attendant: 
+  Attendant: Date,
   ticketingSystem : String,  
       
   
@@ -43,11 +44,11 @@ const parkingSchema = Schema({
           slotId : Number,
           type : String, 
           status : Number,
-          coordinates:[{type:SchemaTypes.Double}]
+          coordinates:[{lat:Number,lng:Number}]
       }
                ]   
 
 });
 
-var Parking = mongoose.model('Parking', parkingSchema);
-module.exports = Parking; 
+var Parking = mongoose.model('parkingmodels', parkingSchema);
+module.exports = Parking;  
