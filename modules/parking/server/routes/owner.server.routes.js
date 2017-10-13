@@ -1,9 +1,9 @@
 'use strict';
-
+var chalk = require("chalk");
 module.exports = function (app) {
 
   var owner = require('../controllers/owner.parking.controllers');
-  console.log('owner.server.routes');
+  console.log(chalk.blue('owner.server.routes'));
  
   app.route('/v1/parking/:parking_id/owner').get(owner.parkingInfo);
   app.route('/v1/parking/:parking_id/log').get(owner.getLog);

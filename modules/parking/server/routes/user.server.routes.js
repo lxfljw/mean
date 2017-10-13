@@ -3,7 +3,8 @@
 module.exports = function (app) {
 
   var users = require('../controllers/users.parking.controllers');
-  console.log('user.server.routes');
+ 
+ 
 
  
   app.route('/users/self/info').get(users.userGetInfo);
@@ -11,6 +12,8 @@ module.exports = function (app) {
   app.route('/v1/parking/reservetion/cancel').post(users.cancleReservetion);
   app.route('/v1/parking/occupation/start').post(users.startParking);
   app.route('/v1/parking/checkout').post(users.stopParking);
+
+  
   app.route('/v1/users/self/parking/history1').get(users.parkingHistory);
   app.route('/v1/users/self/pay').post(users.manualPayment);
   app.route('/v1/users/self/coupons').get(users.usersCoupons);
