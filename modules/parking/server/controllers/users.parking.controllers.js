@@ -1,3 +1,4 @@
+
 'use strict';
 
 var _ = require('lodash'),
@@ -8,25 +9,36 @@ var _ = require('lodash'),
   config = require(path.resolve('./config/config')),
   validator = require('validator');
   var ParkingService= require('./ParkingService');
+  var UserService= require('./UserService');
   const chalk = require('chalk');
 
 
+
+//UserService
+//------------------------------------------------------------------------------------------//
 exports.userGetInfo = function (req,res,next) {
-				 var parkingService = new ParkingService()
-				 var id = req.query.type, distance = req.query.distance; 
-				 parkingService.userGetInfo(id)
+				 var userService = new UserService()
+				 var id = req.query.name, distance = req.query.distance; 
+				 userService.userGetInfo(id)
 				               .then(usergetinfo=>{
-				            res.status(200).json(usergetinfo)
+				               	console.log(chalk.green("Here will print user info "))
+				    return      res.status(200).json(usergetinfo)
 				             }).catch(next)
 					}
 
  
+//------------------------------------------------------------------------------------------//
 
 
+
+
+
+//BookingSrvice
+//------------------------------------------------------------------------------------------//
 exports.reserveParking = function (req,res,next) {
-				 var parkingService = new ParkingService()
+				 var bookingService = new BookingService()
 				 var id = req.query.type, distance = req.query.distance; 
-				 parkingService.reserveParking(id)
+				 Bookingervice.reserveParking(id)
 				               .then(reserveparking=>{
 				            res.status(200).json(reserveparking) 	
 				             }).catch(next)
@@ -36,13 +48,37 @@ exports.reserveParking = function (req,res,next) {
 exports.cancleReservetion = function (req,res,next) {
 				var parkingService = new ParkingService()
 				var id = req.query.type,distance = req.query.distance;
-				parkingService.cancleReservetion(id)
+				Bookingervice.cancleReservetion(id)
 				              .then(canclereservetion=>{
 				           res.status(200).json(canclereservetion)
 				            }).catch(next)
 			}
+//------------------------------------------------------------------------------------------//
 
 
+
+
+
+
+
+
+//ParkingService
+//------------------------------------------------------------------------------------------//
+exports.searchParking = function (req,res,next) {
+
+				  var parkingService = new ParkingService()
+				//新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
+				
+				    // 做req.params.id 的验证（获取数据之前要验证）
+				  var id=req.query.type,distance=req.query.distance;
+		    		parkingService.searchParking(id)
+					              .then(parkings => {
+					                //获得电影的id
+					           res.status(200).json(parkings)
+					                 //获取成功
+					            }).catch(next)
+
+			}
 
 exports.startParking = function (req,res,next) {
 				var parkingService = new ParkingService()
@@ -69,21 +105,34 @@ exports.stopParking = function (req,res,next) {
 
 
           }
-
+//------------------------------------------------------------------------------------------//
 		 
 
 
-exports.parkingHistory= function (req,res,next) {
+
+
+//TransactionService
+//------------------------------------------------------------------------------------------//
+exports.userParkingHistory= function (req,res,next) {
 	            console.log(chalk.blue('Function parkinghistory is ok !'));
 			    var parkingService = new ParkingService()
-			    var id = req.query.type,distance=req.query.distance;
-                parkingService.parkingHistory(id)
+			    var user_id = req.query.type;
+			    console.log(chalk.green(user_id));
+                Transaction.parkingHistory(user_id)
                               .then(parkinghistory =>{
-                           res.status(200).json(parkinghistory)	
-                            }).catch(next)
+                                 console.log(chalk.green("callbackData: "+parkinghistory));
+                          		return res.status(200).json(parkinghistory)	
+               				  }).catch(next)
           }
+//------------------------------------------------------------------------------------------//
 
 
+
+
+
+
+//PaymentService
+//------------------------------------------------------------------------------------------//
 exports.manualPayment= function (req,res,next) {
                 var parkingService = new ParkingService()
     //新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
@@ -96,29 +145,20 @@ exports.manualPayment= function (req,res,next) {
 				
 			}
 
+//------------------------------------------------------------------------------------------//
+
+
+
+
+//CouponsService
+//------------------------------------------------------------------------------------------//
 exports.usersCoupons= function (req,res,next) {
 
 				var parkingService = new ParkingService()
 				var id = req.query.type,distance=req.query.distance;
-				 parkingService.usersCoupons(id)
+				 userService.usersCoupons(id)
 				               .then(coupons =>{
 				            res.status(200).json(coupons)
 				             }).catch(next)  
             }
-
-
-exports.searchParking = function (req,res,next) {
-
-				  var parkingService = new ParkingService()
-				//新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
-				
-				    // 做req.params.id 的验证（获取数据之前要验证）
-				  var id=req.query.type,distance=req.query.distance;
-		    		parkingService.searchParking(id)
-					              .then(parkings => {
-					                //获得电影的id
-					           res.status(200).json(parkings)
-					                 //获取成功
-					            }).catch(next)
-
-			}
+ //------------------------------------------------------------------------------------------//           

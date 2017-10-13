@@ -1,3 +1,4 @@
+
 'use strict';
 
 var _ = require('lodash'),
@@ -8,11 +9,26 @@ var _ = require('lodash'),
   config = require(path.resolve('./config/config')),
   validator = require('validator');
   var ParkingService= require('./ParkingService');
+  var BookingService= require('./BookingService');
+  var PaymentService= require('./PaymentService');
   const chalk = require('chalk');
  
 
- 
-exports.userHistory = function (req, res,next) {
+//UserService
+//------------------------------------------------------------------------------------------//
+exports.getUserInfo = function (req, res,next) {
+         var userService = new UserService()
+         var id = req.query.type, distance = req.query.distance; 
+         userService.userInfo(id)
+                       .then( data =>{
+                    res.status(200).json(data)
+                     }).catch(next)
+  
+}
+
+//Transaction
+ //------------------------------------------------------------------------------------------//
+exports.getUserTransaction = function (req, res,next) {
 
          var parkingService = new ParkingService()
          var id = req.query.type, distance = req.query.distance; 
@@ -22,20 +38,37 @@ exports.userHistory = function (req, res,next) {
                      }).catch(next)
         }
 
+//BookingService
+//------------------------------------------------------------------------------------------//
 
 
+exports.getUserBooking= function (req, res,next) {
 
-exports.userInfo = function (req, res,next) {
-         var parkingService = new ParkingService()
+         var bookingService = new BookingService()
          var id = req.query.type, distance = req.query.distance; 
-         parkingService.userInfo(id)
+        bookingService.userHistory(id)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)
-  
-}
+ }
 
 
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------//
+
+
+
+
+
+//ParkingService
+//------------------------------------------------------------------------------------------//
 
 exports.illegalParking = function (req, res,next) {
          var parkingService = new ParkingService()
@@ -51,7 +84,7 @@ exports.illegalParking = function (req, res,next) {
 
 
 
-exports.getParkingId = function (req, res,next) {
+exports.getParkingStatus = function (req, res,next) {
          var parkingService = new ParkingService()
          var id = req.query.type, distance = req.query.distance; 
          parkingService.getParkingId(id)
@@ -62,7 +95,16 @@ exports.getParkingId = function (req, res,next) {
 
 }
 
+exports.getParkingHistory = function (req, res,next) {
+         var parkingService = new ParkingService()
+         var id = req.query.type, distance = req.query.distance; 
+         parkingService.getParkingId(id)
+                       .then( data =>{
+                    res.status(200).json(data)
+                     }).catch(next)
 
+
+}
 
 
 exports.getSpaceId = function (req, res,next) {

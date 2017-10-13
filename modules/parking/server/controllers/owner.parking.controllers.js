@@ -11,6 +11,9 @@ var _ = require('lodash'),
   const chalk = require('chalk');
 
 
+
+//ParkingService
+//------------------------------------------------------------------------------------------//
 exports.parkingInfo= function (req, res,next) {
 				   var parkingService = new ParkingService()
 				   var id = req.query.type,distance = req.query.distance;
@@ -22,7 +25,56 @@ exports.parkingInfo= function (req, res,next) {
 					 
 				}
 
+				exports.getSpaceIdStatus= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getSpaceIdStatus(id)
+				                 .then( spaceid =>{
+				              res.status(200).json(spaceid)
+				               }).catch(next)
+					 
+				}
 
+exports.updateSpaceIdStatus= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.updateSpaceIdStatus(id)
+				                 .then( updatespaceidstatus =>{
+				              res.status(200).json(updatespaceidstatus )
+				               }).catch(next)
+					 
+				}
+
+exports.getEvents= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.getEvents(id)
+				                 .then( getevents =>{
+				              res.status(200).json(getevents)
+				               }).catch(next)
+					 
+				}
+
+exports.modifyThePrice= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var id = req.query.type,distance = req.query.distance;
+				   parkingService.modifyThePrice(id)
+				                 .then(  modifytheprice=>{
+				              res.status(200).json( modifytheprice)
+				               }).catch(next)
+					 
+				}
+//------------------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
+ //Transaction
+ //------------------------------------------------------------------------------------------//
 exports.getLog= function (req, res,next) {
 	               console.log(chalk.blue('function getLog is running')) 	 
 				   var parkingService = new ParkingService()
@@ -35,44 +87,6 @@ exports.getLog= function (req, res,next) {
 				}
 
 
-exports.getSpaceIdStatus= function (req, res,next) {
-				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getSpaceIdStatus(id)
-				                 .then( spaceid =>{
-				              res.status(200).json(spaceid)
-				               }).catch(next)
-					 
-				}
-
-
-
-
-exports.updateSpaceIdStatus= function (req, res,next) {
-				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.updateSpaceIdStatus(id)
-				                 .then( updatespaceidstatus =>{
-				              res.status(200).json(updatespaceidstatus )
-				               }).catch(next)
-					 
-				}
-
-
-
-exports.getEvents= function (req, res,next) {
-				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getEvents(id)
-				                 .then( getevents =>{
-				              res.status(200).json(getevents)
-				               }).catch(next)
-					 
-				}
-
-
-
-
 exports.getHistory= function (req, res,next) {
 				   var parkingService = new ParkingService()
 				   var id = req.query.type,distance = req.query.distance;
@@ -82,18 +96,20 @@ exports.getHistory= function (req, res,next) {
 				               }).catch(next)
 					 
 				}
+//------------------------------------------------------------------------------------------//
 
 
 
 
 
 
-exports.modifyThePrice= function (req, res,next) {
-				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.modifyThePrice(id)
-				                 .then(  modifytheprice=>{
-				              res.status(200).json( modifytheprice)
-				               }).catch(next)
-					 
-				}
+
+//BookingService				
+//------------------------------------------------------------------------------------------//
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------//

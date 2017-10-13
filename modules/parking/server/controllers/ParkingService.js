@@ -1,21 +1,28 @@
 var Promise = require("bluebird");
 const chalk = require('chalk');
-import CarModel from '../models/car.server.modules.js';
+/*import CarModel from '../models/car.server.models.js';
 import Transaction from '../models/transaction.server.models';
 import UserProfile from '../models/userProfile.server.models';
-import Parking from '../models/parking.server.models';
-  
+import Parking from '../models/parking.server.models';*/
+
+  var mongoose = require('mongoose'),
+  CarModel = mongoose.model('carmodels'),
+  User = mongoose.model('userprofiles'),
+  Transaction = mongoose.model('transactions'),
+  Parking = mongoose.model('parkingmodels');
+
 class ParkingService {
      // parking_type == 'indoor'  'outdoor'
      searchParking(parking_type)  {
         return new Promise((resolve, reject) => {
-
-          const query = { parking_id:""  } 
-          const projection = { _id: 0,parking_id:1,location:1,price:1,type:1} 
-            
+          
+          const query = { parking_id:"3211" } 
+          const projection = { }   
           Parking.find(query, projection, (err, parkings) => {
-             if (err) {  reject(new Error('An error occured fetching a parking_id ')) }
-             resolve(parkings);
+             if (err) {  
+              reject(new Error('An error occured fetching a parking_id ')) }
+             else 
+              resolve(parkings);
           });
     
 /*
@@ -52,20 +59,36 @@ class ParkingService {
       } ;
 
 
-
-
+ 
+ 
  
      parkingHistory(id){
 
                return new Promise ((resolve,reject)=>{
-                          const query = {parking_id:"123"  } ;
-                          const projection = {_id:  0 , parking_id:1 }; 
-                          Parking.findOne(query,projection,(err,parkinghistory)=>{
+                          console.log(chalk.green("Here is ParkingHistory")) ;
+                          const query = {location:id} ;
+                          const projection = {}
+/*
+                          Parking.update({location:"ecjtu"}, {$set:{location:"HDJD"}}, function (error) {  
+                          if (error) {  
+                              console.error(error);  
+                          } else {  
+                              console.error("更新用户名成功")  
+                          }  
+                      }); 
+                                           
+*/
+                          Parking.find(query,(err,parkinghistory)=>{
                             if(err){
+                              console.log(chalk.red(err));
                               reject(new Error('This parking_id is not exist!'))
-                            };
-                            else 
-                              resolve(parkinghistory)
+                            }
+                            else{
+                              console.log(chalk.green("Data from mongodb is here"));
+                              console.log(chalk.green(parkinghistory));
+                              resolve(parkinghistory)}
+
+                             
                           })
 
                     /*    var data =   [{     
@@ -101,13 +124,14 @@ class ParkingService {
       startParking(id){
 
                   return new Promise((resolve,reject)=>{
-                  const query = {parking_id:"123",parkingSlots.$.slotId : "123", };
+                  const query = {parking_id:"123" };
                   const projection = {_id:0, parking_id:1 , parkingSlots:1 };
                   Parking.findOne(query,projection,(err,parking_id)=>{
                     if (err){
                       reject(new Error("Fail to start Parking!"))
-                    };
-                    else resolve(parking_id)
+                    }
+                    else 
+                      resolve(parking_id)
                   })
 /*
                   var data =  {
@@ -137,8 +161,9 @@ class ParkingService {
                       Parking.findOne(query,projection,(err,paking_id)=>{
                         if(err){
                           reject(new Error("Fail to stop parking!"))
-                        };
-                        else resolve(parking_id)
+                        }
+                        else 
+                          resolve(parking_id)
                       })
 /*
                       var data = {
@@ -173,8 +198,9 @@ class ParkingService {
                       Parking.findOne(query,projection,(err,paking_id)=>{
                         if(err){
                           reject(new Error("Fail to stop parking!"))
-                        };
-                        else resolve(parking_id)
+                        }
+                        else 
+                          resolve(parking_id)
                       })
 /*
               var data =  {
@@ -212,13 +238,14 @@ class ParkingService {
 
  getSpaceIdStatus(id){
             return new Promise((resolve,reject)=>{
-                      const query = {parkingSlots.$.status}
+                      const query = {'parkingSlots.$.status':1}
                       const projection = {_id:0, parkingSlots:1  }
                       Parking.findOne(query,projection,(err,status)=>{
                         if(err){
                           reject(new Error("Fail to get space status!"))
-                        };
-                        else resolve(status)
+                        }
+                        else 
+                          resolve(status)
                       })
 
              /*
@@ -233,13 +260,14 @@ class ParkingService {
 
   updateSpaceIdStatus (id){
               return new Promise((resolve,reject)=>{
-                      const query = {parkingSlots.$.status}
+                      const query = {'parkingSlots.$.status':1}
                       const projection = {_id:0, parkingSlots:1  }
                       Parking.findOneAndUpdate(query,projection,(err,status)=>{
                         if(err){
                           reject(new Error("Fail to get or update space status!"))
-                        };
-                        else resolve(status)
+                        }
+                        else 
+                          resolve(status)
                       })
 
 
@@ -261,8 +289,9 @@ getParkingId (id){
                       Parking.findOne(query,projection,(err,parking_id)=>{
                         if(err){
                           reject(new Error("Fail to get parking_id!"))
-                        };
-                        else resolve(parking_id)
+                        }
+                        else 
+                          resolve(parking_id)
                       })
   /*
             var data = {test:"test getParkingId"}
@@ -278,11 +307,12 @@ getParkingId (id){
           return new Promise((resolve,reject)=>{
                       const query = {parking_id}
                       const projection = {_id:0, parking_id:1  }
-                      Parking.findOne(query,projection,(err,paarking_id)=>{
+                      Parking.findOne(query,projection,(err,parking_id)=>{
                         if(err){
                           reject(new Error("Fail to get space status!"))
-                        };
-                        else resolve(parking_id)
+                        }
+                        else 
+                          resolve(parking_id)
                       })
 
 /*             
@@ -297,28 +327,38 @@ getParkingId (id){
 
  illegalParking (id){
           return new Promise((resolve,reject)=>{
-            var projetion={ _id:0, id:1, tittle:1, format:1 }
-            var query = { }
+            var query = {parking_id:1 }
+            var projetion={ _id:0,parking_id :1}
+             Parking.findOne(query,projection,(err,parking_id)=>{
+                        if(err){
+                          reject(new Error("Fail to get illegalParking (!"))
+                        }
+                        else 
+                          resolve(parking_id)
+                      })
+         //   var data = {test:"test illegalParking "}
 
-            var data = {test:"test illegalParking "}
-
-            if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
+         
           })
          }
+       
 
 
   
 
  
   getEvents(id){
-            return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-              var data = {test:"test   getEvents"}
-              if(id==0){reject(new Error('Fail ')) }
-              else resolve (data)
-
+            return new Promise((resolve,reject)=>{ 
+              const query = { slot:1}
+              const projetion = {_id:0, slot:1 }
+             
+               Parking.find(query,projection,(err,slot)=>{
+                        if(err){
+                          reject(new Error("Fail to get space events!"))
+                        }
+                        else 
+                          resolve(slot)
+                     })
             })
           }
 
@@ -327,12 +367,16 @@ getParkingId (id){
 
  modifyThePrice(id){
             return new Promise((resolve,reject)=>{
-              const projetion = {_id:0, id:1, tittle:1, format:1 }
-              const query = { }
-              var data = {test:"test modifyThePrice"}
-              if(id==0){reject(new Error('Fail ')) }
-              else resolve (data)
-
+              const query = { price:"11"}
+              const projetion = {_id:0,price:1 }
+              Parking.update(query,projection,(err,price)=>{
+                        if(err){
+                          reject(new Error("Fail to modify the price!"))
+                        }
+                        else 
+                          resolve(price)
+              
+                    })
             })
           }
 
