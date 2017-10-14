@@ -60,7 +60,7 @@ exports.cancleReservetion = function (req,res,next) {
 
 
 
-
+ 
 
 //ParkingService
 //------------------------------------------------------------------------------------------//
@@ -70,8 +70,8 @@ exports.searchParking = function (req,res,next) {
 				//新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
 				
 				    // 做req.params.id 的验证（获取数据之前要验证）
-				  var id=req.query.type,distance=req.query.distance;
-		    		parkingService.searchParking(id)
+				  var parking_id=req.query.parking_id,distance=req.query.distance;
+		    		parkingService.searchParking(parking_id)
 					              .then(parkings => {
 					                //获得电影的id
 					           res.status(200).json(parkings)

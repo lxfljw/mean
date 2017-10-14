@@ -13,10 +13,10 @@ import Parking from '../models/parking.server.models';*/
 
 class ParkingService {
      // parking_type == 'indoor'  'outdoor'
-     searchParking(parking_type)  {
+     searchParking(parking_id)  {
         return new Promise((resolve, reject) => {
-          
-          const query = { parking_id:"3211" } 
+
+          const query = { parking_id:parking_id } 
           const projection = { }   
           Parking.find(query, projection, (err, parkings) => {
              if (err) {  
@@ -62,7 +62,7 @@ class ParkingService {
  
  
  
-     parkingHistory(id){
+     parkingHistory(user_id){
 
                return new Promise ((resolve,reject)=>{
                           console.log(chalk.green("Here is ParkingHistory")) ;
