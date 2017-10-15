@@ -14,21 +14,24 @@ var _ = require('lodash'),
 
 //ParkingService
 //------------------------------------------------------------------------------------------//
-exports.parkingInfo= function (req, res,next) {
+exports.getEvents= function (req, res,next) {
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.parkingInfo(id)
-				                 .then( parkinginfo =>{
-				              res.status(200).json(parkinginfo)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   console.log(parking_id+"here is get function events");
+				   parkingService.getEvents(parking_id)
+				                 .then( getEvents =>{
+				               return  res.status(200).json(getEvents)
 				               }).catch(next)
-				    console.log(chalk.blue('function parkingInfo is OK'))             
+				    console.log(chalk.blue('function getEvents is OK'))
+				              
 					 
 				}
 
-				exports.getSpaceIdStatus= function (req, res,next) {
+exports.getSpaceIdStatus= function (req, res,next) {
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getSpaceIdStatus(id)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   var space_id = req.params.space_id,distance = req.query.distance;
+				   parkingService.getSpaceIdStatus(parking_id,space_id)
 				                 .then( spaceid =>{
 				              res.status(200).json(spaceid)
 				               }).catch(next)
@@ -37,30 +40,22 @@ exports.parkingInfo= function (req, res,next) {
 
 exports.updateSpaceIdStatus= function (req, res,next) {
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.updateSpaceIdStatus(id)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   var space_id = req.params.space_id,distance = req.query.distance;
+				   parkingService.updateSpaceIdStatus(parking_id,space_id)
 				                 .then( updatespaceidstatus =>{
-				              res.status(200).json(updatespaceidstatus )
+				               return res.status(200).json(updatespaceidstatus )
 				               }).catch(next)
 					 
 				}
 
-exports.getEvents= function (req, res,next) {
-				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getEvents(id)
-				                 .then( getevents =>{
-				              res.status(200).json(getevents)
-				               }).catch(next)
-					 
-				}
 
-exports.modifyThePrice= function (req, res,next) {
+exports.modifyThePrices= function (req, res,next) {
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.modifyThePrice(id)
-				                 .then(  modifytheprice=>{
-				              res.status(200).json( modifytheprice)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   parkingService.modifyThePrices(parking_id)
+				                 .then(  modifytheprices=>{
+				              res.status(200).json( modifytheprices)
 				               }).catch(next)
 					 
 				}

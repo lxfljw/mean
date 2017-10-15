@@ -16,7 +16,7 @@ class ParkingService {
     searchParking(parking_id,location,price)  {
         return new Promise((resolve, reject) => {
 
-            const query = {price:} 
+            const query = {price:200} 
             const projection = { }        
 /*
             Parking.update(
@@ -206,16 +206,19 @@ class ParkingService {
 
 
 
-    parkingInfo(id){
+    getEvents(parkingId){
         return new Promise((resolve,reject)=>{
-            const query = {parking_id:"10"}
-            const projection = {_id:0, parking_id:1  }
-            Parking.findOne(query,projection,(err,paking_id)=>{
+            const query = {parking_id:parkingId}
+            const projection = { }
+            Parking.findOne(query,projection,(err,parking_id)=>{
                 if(err){
                     reject(new Error("Fail to stop parking!"))
                 }
-                else 
+                else {
                     resolve(parking_id)
+                    console.log(chalk.green(parkingId))  
+
+                }
             })
 /*
             var data =  {
@@ -249,11 +252,11 @@ class ParkingService {
 
 
 
-    getSpaceIdStatus(id){
+    getSpaceIdStatus(parking_id,space_id){
         return new Promise((resolve,reject)=>{
-            const query = {'parkingSlots.$.status':1}
-            const projection = {_id:0, parkingSlots:1  }
-            Parking.findOne(query,projection,(err,status)=>{
+            const query = {parking_id:parking_id,space_id:space_id}
+            const projection = {  }
+            Parking.find(query,projection,(err,status)=>{
                 if(err){
                     reject(new Error("Fail to get space status!"))
                 }
@@ -271,18 +274,22 @@ class ParkingService {
 
 
 
-    updateSpaceIdStatus (id){
+    updateSpaceIdStatus (parkingId,spaceId){
         return new Promise((resolve,reject)=>{
-            const query = {'parkingSlots.$.status':1}
-            const projection = {_id:0, parkingSlots:1  }
-            Parking.findOneAndUpdate(query,projection,(err,status)=>{
+            const query = {parking_id:3211}
+            const update = {$set:{parking_id:parkingId,space_id:spaceId}}
+            Parking.update(query,update,(err,status)=>{
                 if(err){
                     reject(new Error("Fail to get or update space status!"))
                 }
-                else 
+                else {
+                    console.log(chalk.green('update succeess:'+parkingId))
                     resolve(status)
+                }
             })
-
+            Parking.find({parking_id:parkingId},(err,A)=>{
+                console.log(A)
+            })
 
 /*
         var data = {test:"test updateSpaceIdStatus"}
@@ -295,10 +302,10 @@ class ParkingService {
 
 
 
-    getParkingId (id){
+    getParkingId (parkingId){
         return new Promise((resolve,reject)=>{
-            const query = {parking_id}
-            const projection = {_id:0, parking_id:1  }
+            const query = {parking_id:parkingId}
+            const projection = {  }
             Parking.findOne(query,projection,(err,parking_id)=>{
                 if(err){
                     reject(new Error("Fail to get parking_id!"))
@@ -315,7 +322,7 @@ class ParkingService {
         })
     }
 
-
+/*   
     getSpaceId (id){
         return new Promise((resolve,reject)=>{
             const query = {parking_id}
@@ -328,16 +335,16 @@ class ParkingService {
                     resolve(parking_id)
                 })
 
-/*             
+          
         var data = {test:"test getSpaceId "}
 
         if(id==0){ reject(new Error('fail to get data!'))}
         else resolve  (data) 
-*/ 
+
         })
     }
 
-
+*/ 
     illegalParking (id){
         return new Promise((resolve,reject)=>{
             var query = {parking_id:1 }
@@ -357,32 +364,18 @@ class ParkingService {
       
 
  
-    getEvents(id){
-        return new Promise((resolve,reject)=>{ 
-          const query = { slot:1}
-          const projetion = {_id:0, slot:1 }
-         
-            Parking.find(query,projection,(err,slot)=>{
-                if(err){
-                    reject(new Error("Fail to get space events!"))
-                }
-                else 
-                    resolve(slot)
-            })
-        })
-    }
 
 
-    modifyThePrice(id){
+    modifyThePrices(parking_id){
         return new Promise((resolve,reject)=>{
-            const query = { price:"11"}
-            const projetion = {_id:0,price:1 }
-            Parking.update(query,projection,(err,price)=>{
+            const query = {parking_id:parking_id}
+            const updatePrice = {$set:{price:1016} }
+            Parking.update(query,updatePrice,(err,prices)=>{
                 if(err){
                     reject(new Error("Fail to modify the price!"))
                 }
                 else 
-                    resolve(price)
+                    resolve(prices)
             
             })
         })

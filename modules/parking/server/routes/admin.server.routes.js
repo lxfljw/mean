@@ -9,7 +9,7 @@ module.exports = function (app) {
   app.route('/v1/users/:user/info').get(admin.getUserInfo);
   app.route('/v1/parking/events').get(admin.illegalParking);
   app.route('/v1/parking/:parking_id').get(admin.getParkingStatus);
-  app.route('/v1/parking/:parking_id/:space_id').get(admin.getSpaceId);
+  app.route('/v1/parking/:parking_id').get(admin.getSpaceId);
   
    
 

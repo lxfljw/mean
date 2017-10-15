@@ -7,7 +7,7 @@ module.exports = function (app) {
    
     app.route('/users/self/info').get(users.userGetInfo);
     app.route('/v1/parking/reserve').post(users.reserveParking);
-    app.route('/v1/parking/reservation/cancel').put(users.cancleReservetion);
+    app.route('/v1/parking/reservation/:booking_id/cancel').put(users.cancleReservetion);
     app.route('/v1/parking/occupation/start').post(users.startParking);
     app.route('/v1/parking/checkout').post(users.stopParking);
 

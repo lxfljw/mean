@@ -5,20 +5,19 @@ import CarModel from '../models/car.server.models.js';
 import Transaction from '../models/transaction.server.models';
 import UserProfile from '../models/userProfile.server.models';
 import Parking from '../models/parking.server.models';
-*/
+*/ 
 var mongoose = require('mongoose'),
     CarModel = mongoose.model('carmodels'),
     User = mongoose.model('userprofiles'),
     Transaction = mongoose.model('transactions'),
     Parking = mongoose.model('parkingmodels');
 
-
 class BookingService{
-    reserveParking(id){
+    reserveParking(parkingid){
         return new Promise((resolve,reject)=>{
-            const query = {parkingSlots :[{ slotId : "111"}]};
-            const projetion = {_id:0,parkingSlots:1 };
-            Parking.findOne(query,projection,(err,slot)=>{
+            const query = { parking_id:parkingid };
+            const projection = { };
+            Parking.find(query,projection,(err,slot)=>{
                 if (err){
                     reject(new Error("Slot is not exist!"))
                 }
@@ -45,13 +44,13 @@ class BookingService{
             
 
 
-    cancleReservetion(id){
+    cancleReservetion(bookingId){
         return new Promise((resolve,reject)=>{
-            const query = { 'parkingSlots.$.slotId' : 1};
-            const projetion = {_id:0,parkingSlots:1 };
-            Parking.findOne(query,projection,(err,slot)=>{
+            const query = {booking_id:bookingId};
+            const projection = {  };
+            Parking.find(query,projection,(err,slot)=>{
               	if (err){
-              		  reject(new Error("Fail to cancle booking!"))
+              	     return reject(new Error("Fail to cancle booking!"))
               	}
               	else resolve(slot)
             })

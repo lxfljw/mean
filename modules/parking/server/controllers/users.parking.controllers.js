@@ -11,6 +11,7 @@ var _ = require('lodash'),
 var ParkingService= require('./ParkingService');
 var UserService= require('./UserService');
 var PaymentService= require('./PaymentService');
+var BookingService= require('./BookingService');
 const chalk = require('chalk');
 
 
@@ -39,8 +40,8 @@ exports.userGetInfo = function (req,res,next) {
 //------------------------------------------------------------------------------------------//
 exports.reserveParking = function (req,res,next) {
 		var bookingService = new BookingService()
-		var id = req.query.type, distance = req.query.distance; 
-		Bookingervice.reserveParking(id)
+		var parking_id = req.query.parking_id, distance = req.query.distance; 
+		bookingService.reserveParking(parking_id)
 		        .then(reserveparking=>{
 	            		res.status(200).json(reserveparking) 	
 	            }).catch(next)
@@ -48,11 +49,12 @@ exports.reserveParking = function (req,res,next) {
 
 
 exports.cancleReservetion = function (req,res,next) {
-		var parkingService = new ParkingService()
-		var id = req.query.type,distance = req.query.distance;
-		Bookingervice.cancleReservetion(id)
+		var bookingService = new BookingService()
+		var booking_id = req.params.booking_id, distance = req.query.distance;
+		console.log(booking_id);
+		bookingService.cancleReservetion(booking_id)
 				.then(canclereservetion=>{
-				           res.status(200).json(canclereservetion)
+				         return res.status(200).json(canclereservetion)
 				}).catch(next)
 }
 //------------------------------------------------------------------------------------------//
