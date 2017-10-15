@@ -16,7 +16,7 @@ class ParkingService {
     searchParking(parking_id,location,price)  {
         return new Promise((resolve, reject) => {
 
-            const query = {price:} 
+            const query = {price:2000} 
             const projection = { }        
 /*
             Parking.update(
