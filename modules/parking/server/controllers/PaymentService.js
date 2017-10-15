@@ -17,17 +17,17 @@ class PaymentService{
 
 
 //no finish
-  usersCoupons(id){
+    usersCoupons(id){
 
-            return new Promise((resolve,reject) =>{
-              const query = { coupon_id:"1234567" };
-              const projection = {_id:  0 , coupon:1 };
-              Parking.find(query,projection,(err,coupon)=>{
-              	if(err){
-                   reject(new Error("This coupon is not exist!"))
-              	}
-              	else resolve(coupon)
-              }) 
+        return new Promise((resolve,reject) =>{
+            const query = {price:100 };
+            const projection = {  };
+            Transaction.find(query,projection,(err,coupon)=>{
+            	if(err){
+                 reject(new Error("This coupon is not exist!"))
+            	}
+            	else resolve(coupon)
+            }) 
 
   /*           
               var data =  [{
@@ -50,22 +50,22 @@ class PaymentService{
              if (id==0) { reject(new Error ('An error An error occured fetching a coupon'))} 
              else resolve(data) ;       
 */
-            } )
-            };
+            })
+    };
           
 
 
-		        manualPayment(id){
+		manualPayment(id){
 
-				              return new Promise((resolve,reject)=>{
-				              const query = {price:"22" }
-				              const projetion = {_id:0, price:1 }
-				              Transaction.findOne(query,projection,(err,price)=>{
-				              	if (err){
-				              		reject(new Error("Fail to get price!!"))
-				              	}
-				              	else resolve(price)
-				              })
+        return new Promise((resolve,reject)=>{
+            const query = {price:"22" }
+            const projetion = {_id:0, price:1 }
+            Transaction.findOne(query,projection,(err,price)=>{
+            	if (err){
+            		reject(new Error("Fail to get price!!"))
+            	}
+            	else resolve(price)
+            })
 				             
 				             
 
@@ -91,7 +91,8 @@ class PaymentService{
                       }
                       else resolve(data);
  */
-              })};
+        })
+    };
 
 
 
