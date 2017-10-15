@@ -81,7 +81,7 @@ exports.illegalParking = function (req, res,next) {
 
 }
 
-
+ 
 
 
 exports.getParkingStatus = function (req, res,next) {

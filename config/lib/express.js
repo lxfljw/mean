@@ -19,6 +19,7 @@ var config = require('../config'),
   hbs = require('express-hbs'),
   path = require('path'),
   _ = require('lodash'),
+  cors = require('cors'),
   lusca = require('lusca');
 
 /**
@@ -42,6 +43,13 @@ module.exports.initLocalVariables = function (app) {
   app.locals.favicon = config.favicon;
   app.locals.env = process.env.NODE_ENV;
   app.locals.domain = config.domain;
+
+  var corsOptions = {
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus:200
+  };
+  app.use(cors());
+
 
   // Passing the request url to environment locals
   app.use(function (req, res, next) {

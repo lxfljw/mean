@@ -33,7 +33,7 @@ const parkingSchema = Schema({
   
   openTime : Date,
   closeTime : Date,
-  
+   
  
   Attendant: Date,
   ticketingSystem : String,  
@@ -50,5 +50,6 @@ const parkingSchema = Schema({
 
 });
 
-var Parking = mongoose.model('parkingmodels', parkingSchema);
-module.exports = Parking;  
+//var Parkings = 
+mongoose.model('parkingmodels', parkingSchema);
+//module.exports = Parkings;  
