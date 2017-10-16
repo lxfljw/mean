@@ -97,8 +97,8 @@ exports.getParkingStatus = function (req, res,next) {
 
 exports.getParkingHistory = function (req, res,next) {
          var parkingService = new ParkingService()
-         var id = req.query.type, distance = req.query.distance; 
-         parkingService.getParkingId(id)
+         var parking_id = req.params.parking_id, distance = req.query.distance; 
+         parkingService.getParkingId(parking_id)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)

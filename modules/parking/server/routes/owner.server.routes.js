@@ -7,13 +7,13 @@ module.exports = function (app) {
  
   app.route('/v1/parking/:parking_id/events').get(owner.getEvents);
   app.route('/v1/parking/:parking_id/log').get(owner.getLog);
-  app.route('/v1/parking/:parking_id/:space_id').get(owner.getSpaceIdStatus);
+  app.route('/v1/parking/:parking_id/:space_id/status').get(owner.getSpaceIdStatus);
   app.route('/v1/parking/:parking_id/:space_id').put(owner.updateSpaceIdStatus);
   app.route('/v1/parking/:parking_id/events').get(owner.getEvents);
   //app.route('/v1/parking/:parking_id/events/test').get(owner.test);
-  app.route('/v1/parking/:parking_id/history').get(owner.getHistory);
+  app.route('/v1/parking/:parking_id/history').get(owner.parkingHistory);
   app.route('/v1/parking/:parking_id/prices').put(owner.modifyThePrices);
-  
+  console.log("owner routes");
     
 
  

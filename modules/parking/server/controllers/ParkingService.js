@@ -76,12 +76,12 @@ class ParkingService {
  
  
  
-    parkingHistory(user_id){
+    parkingHistory(parkingId){
 
         return new Promise ((resolve,reject)=>{
             console.log(chalk.green("Here is ParkingHistory")) ;
-            const query = {location:id} ;
-            const projection = {}
+            const query = {parking_id:parkingId} ;
+            const projection = { }
 /*
                 Parking.update({location:"ecjtu"}, {$set:{location:"HDJD"}}, function (error) {  
                     if (error){  

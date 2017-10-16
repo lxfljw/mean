@@ -82,17 +82,18 @@ exports.getLog= function (req, res,next) {
 				}
 
 
-exports.getHistory= function (req, res,next) {
+exports.parkingHistory= function (req, res,next) {
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getHistory(id)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   console.log(chalk.yellow("Data is :"+parking_id));
+				   parkingService.parkingHistory(parking_id)
 				                 .then( gethistory =>{
-				              res.status(200).json(gethistory)
+				               return res.status(200).json(gethistory)
 				               }).catch(next)
 					 
 				}
 //------------------------------------------------------------------------------------------//
-
+ 
 
 
 
