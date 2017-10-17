@@ -63,7 +63,7 @@ class UserService{
     getLog(id){
         return new Promise((resolve,reject)=>{
             const query = {username:"lxf" }
-            const projetion = {_id:0, username:1 }
+            const projection = {_id:0, username:1 }
              
                 User.findOne(query,projection,(err,username)=>{
                   	if (err){
@@ -90,7 +90,7 @@ class UserService{
            
         return new Promise((resolve,reject)=>{
               const query = {username:"lxf" }
-              const projetion = {_id:0, username:1 }
+              const projection = {_id:0, username:1 }
               User.findOne(query,projection,(err,username)=>{
               	if (err){
               		reject(new Error("This user is not exist!"))
@@ -109,7 +109,7 @@ class UserService{
     userHistory(id){
         return new Promise((resolve,reject)=>{
             const query = {username:"lxf" }
-            const projetion = {_id:0, username:1 }
+            const projection = {_id:0, username:1 }
             User.findOne(query,projection,(err,username)=>{
               	if (err){
               		  reject(new Error("This user is not exist!"))
@@ -139,11 +139,11 @@ class UserService{
         })
     }
                    
-    userInfo(id){
+    userInfo(username){
            
         return new Promise((resolve,reject)=>{
-            const query = {username:"lxf" }
-            const projetion = {_id:0, username:1 }
+            const query = {name:username }
+            const projection = {  }
             User.findOne(query,projection,(err,username)=>{
             	if (err){
             		reject(new Error("This user is not exist!"))

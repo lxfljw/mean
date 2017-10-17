@@ -12,6 +12,23 @@ Transaction = mongoose.model('transactions'),
 Parking = mongoose.model('parkingmodels');
 
 class ParkingService {
+
+     ownerGetParkingId(parkingId){
+        return new Promise((resolve,reject)=>{
+            const query = {parking_id:parkingId};
+            const projection = { };
+            Parking.find(query,projection,(err,parkingInfo)=>{
+                if(err){
+                    reject(new Error("Fail to get parking Info!"))
+                }
+                else 
+                    resolve(parkingInfo)
+            
+            })
+        })
+    }
+
+   
     // parking_type == 'indoor'  'outdoor'
     searchParking(parking_id,location,price)  {
         return new Promise((resolve, reject) => {
@@ -351,7 +368,7 @@ class ParkingService {
             var projetion={ _id:0,parking_id :1}
             Parking.findOne(query,projection,(err,parking_id)=>{
                 if(err){
-                    reject(new Error("Fail to get illegalParking (!"))
+                    reject(new Error("Fail to get illegalParking !"))
                 }
                 else 
                     resolve(parking_id)
@@ -380,6 +397,10 @@ class ParkingService {
             })
         })
     }
+
+
+   
+
 
 }
 

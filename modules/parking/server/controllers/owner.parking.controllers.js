@@ -8,10 +8,12 @@ var _ = require('lodash'),
   config = require(path.resolve('./config/config')),
   validator = require('validator');
   var ParkingService= require('./ParkingService');
+  var TransactionService= require('./TransactionService');
+  var UserService= require('./UserService');
   const chalk = require('chalk');
 
 
-
+ 
 //ParkingService
 //------------------------------------------------------------------------------------------//
 exports.getEvents= function (req, res,next) {
@@ -59,6 +61,18 @@ exports.modifyThePrices= function (req, res,next) {
 				               }).catch(next)
 					 
 				}
+ 
+
+exports.ownerGetParkingId= function (req, res,next) {
+				   var parkingService = new ParkingService()
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   parkingService.ownerGetParkingId(parking_id)
+				                 .then( parkingInfo =>{
+				               return res.status(200).json(parkingInfo)
+				               }).catch(next)
+					 
+				}
+
 //------------------------------------------------------------------------------------------//
 
 
@@ -92,10 +106,36 @@ exports.parkingHistory= function (req, res,next) {
 				               }).catch(next)
 					 
 				}
+
+
+exports.getUserTransactionHistory= function (req, res,next) {
+				   var transactionService = new TransactionService()
+				   var guestID = req.params.guestID,distance = req.query.distance;
+				   console.log(chalk.yellow(guestID));
+				   transactionService.getUserTransactionHistory(guestID)
+				                 .then( guestID =>{
+				               return res.status(200).json(guestID)
+				               }).catch(next)
+					 
+				}				
 //------------------------------------------------------------------------------------------//
  
 
 
+
+//------------------------------------------------------------------------------------------
+exports.OwnerGetUserInfo= function (req, res,next) {
+				   var userService = new UserService()
+				   var username = req.params.username,distance = req.query.distance;
+				   userService.userInfo(username)
+				                 .then( username =>{
+				               return res.status(200).json(username)
+				               }).catch(next)
+					 
+				}
+
+
+//------------------------------------------------------------------------------------------
 
 
 

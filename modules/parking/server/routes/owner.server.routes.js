@@ -13,10 +13,14 @@ module.exports = function (app) {
   //app.route('/v1/parking/:parking_id/events/test').get(owner.test);
   app.route('/v1/parking/:parking_id/history').get(owner.parkingHistory);
   app.route('/v1/parking/:parking_id/prices').put(owner.modifyThePrices);
+  app.route('/v1/user/:guestID/parking/transaction/history').get(owner.getUserTransactionHistory);
+  app.route('/v1/users/:username/info/owner').get(owner.OwnerGetUserInfo);
+  app.route('/v1/parking/:parking_id/owner').get(owner.ownerGetParkingId);
   console.log("owner routes");
     
-
+  
  
   // Finish by binding the user middleware
  // app.param('userId', owner.userByID);
 };
+  
