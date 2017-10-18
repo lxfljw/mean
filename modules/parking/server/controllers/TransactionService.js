@@ -14,21 +14,51 @@ var mongoose = require('mongoose'),
 
 
 class TransactionService{
-     
-		getUserTransactionHistory(guestID){
+
+		parkingHistory(guestID){
 			return new Promise((resolve,reject)=>{
 				const query = {price:100}
 				const projection= { }
-                Transaction.find(query,projection,(err,guestID)=>{
-                	if (err){
-                		reject(new Error("fail to get userTransaction because "+err))
-                	}
-                	else resolve(guestID)
+                Transaction.find(query,projection)
+                .populate({path:'guestID'})
+                .exec(function(err,doc){
+                  if (err){
+                    reject(new Error("fail to get userTransaction because "+err))
+                  }
+
+                  else  {
+                  resolve(doc);
+                  console.log(doc.name);
+                  }
+
                 })
+
 			})
-		}    
+		}
+
+
+    getUserTransactionHistory(guestID){
+      return new Promise((resolve,reject)=>{
+        const query = {price:100}
+        const projection= { }
+                Transaction.find(query,projection)
+                .populate({path:'guestID'})
+                .exec(function(err,doc){
+                  if (err){
+                    reject(new Error("fail to get userTransaction because "+err))
+                  }
+
+                  else  {
+                  resolve(doc);
+                  console.log(doc.name);
+                  }
+
+                })
+
+      })
+    }
 
 }
 
 
-module.exports =  TransactionService;  
+module.exports =  TransactionService;

@@ -16,7 +16,7 @@ const transactionSchema = Schema({
   endTime: { type: Date },
   price: { type: Number },
   hostID: { type: Schema.Types.ObjectId, required: true },
-  guestID: { type: Schema.Types.ObjectId, required: true },
+  guestID: { type: Schema.Types.ObjectId, required: true,ref:'userprofiles' },
   lotID: { type: Schema.Types.ObjectId }
   
 

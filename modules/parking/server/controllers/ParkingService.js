@@ -13,6 +13,61 @@ Parking = mongoose.model('parkingmodels');
 
 class ParkingService {
 
+  manualPay(parkingId){
+    return new Promise((resolve,reject)=>{
+        const query = {parking_id:9999};
+        const projection = { };
+        Parking.find(query,projection,(err,parkingInfo)=>{
+            if(err){
+                reject(new Error("Fail to get parking Info!"))
+            }
+            else
+                resolve(parkingInfo)
+
+        })
+    })
+  }
+
+
+
+
+
+      getLog(parkingId){
+        return new Promise((resolve,reject)=>{
+            const query = {parking_id:parkingId};
+            const projection = { };
+            Parking.find(query,projection,(err,parkingInfo)=>{
+                if(err){
+                    reject(new Error("Fail to get parking Info!"))
+                }
+                else
+                    resolve(parkingInfo)
+
+            })
+        })
+    }
+
+
+
+     getLog(parkingId){
+       return new Promise((resolve,reject)=>{
+           const query = {parking_id:parkingId};
+           const projection = { };
+           Parking.find(query,projection,(err,parkingInfo)=>{
+               if(err){
+                   reject(new Error("Fail to get parking Info!"))
+               }
+               else
+                   resolve(parkingInfo)
+
+           })
+       })
+   }
+
+
+
+
+
      ownerGetParkingId(parkingId){
         return new Promise((resolve,reject)=>{
             const query = {parking_id:parkingId};
@@ -21,78 +76,78 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to get parking Info!"))
                 }
-                else 
+                else
                     resolve(parkingInfo)
-            
+
             })
         })
     }
 
-   
+
     // parking_type == 'indoor'  'outdoor'
     searchParking(parking_id,location,price)  {
         return new Promise((resolve, reject) => {
 
-            const query = {price:200} 
-            const projection = { }        
+            const query = {price:200}
+            const projection = { }
 /*
             Parking.update(
                 {_id: "59e0acbbfd19280e6a9b0c65"},
                 {$set:{parking_id:parking_id,location:location,price:price}},
                 function(err){
                     if(err){  console.log(chalk.red("fail to Update and there is ErrorType => "+err)) }
-                    else {   
+                    else {
                         console.error(chalk.green("更新用户名成功!")) ;
                         console.error(chalk.yellow("new parking_id:"+parking_id+"   new location:"+location+"   new price:"+price))    ;
-                    } 
-                     
+                    }
+
                 }
             )
 
 */
             Parking.find(query, projection, (err, parkings) => {
-                if (err) {  
+                if (err) {
                     reject(new Error('An error occured fetching a parking_id ')) }
-                else 
+                else
                     resolve(parkings);
             });
-   
+
 /*
-            var data = {   
+            var data = {
                 "type": "FeatureCollection",   "features":[
-                    {    "type": "Feature",    
+                    {    "type": "Feature",
                           "geometry":
-                        {   "type": "Point",   "coordinates":  
-                           [ 114.2385783,22.50228736 ]   
-                        }, 
-                       "properties": 
-                            {   
-                                "cate":"不收費路旁泊車位",   
-                                "type":"路旁泊車位-不收費",    
-                                "name eng":"",    
-                                "name_chi":"路旁泊車位: 新娘潭路",      
-                                "address":"",   
-                                "district":"大埔",    
-                                "icon":"small_blue",    
-                                "icon_large":"large_blue",   
-                                "paid":"",   
-                                "free":"不收費用的泊車位數目:汽車 / 小型貨車:18",     
-                                "easting":842617,    "norting":840297.5   
-                            } 
+                        {   "type": "Point",   "coordinates":
+                           [ 114.2385783,22.50228736 ]
+                        },
+                       "properties":
+                            {
+                                "cate":"不收費路旁泊車位",
+                                "type":"路旁泊車位-不收費",
+                                "name eng":"",
+                                "name_chi":"路旁泊車位: 新娘潭路",
+                                "address":"",
+                                "district":"大埔",
+                                "icon":"small_blue",
+                                "icon_large":"large_blue",
+                                "paid":"",
+                                "free":"不收費用的泊車位數目:汽車 / 小型貨車:18",
+                                "easting":842617,    "norting":840297.5
+                            }
                     }
                 ]
             }
 
             if (id==0) { reject(new Error('An error occured fetching a parking_id '))}
             else resolve(data);
-  */       
+  */
         })
     } ;
 
 
- 
- 
- 
+
+
+
     parkingHistory(parkingId){
 
         return new Promise ((resolve,reject)=>{
@@ -100,15 +155,15 @@ class ParkingService {
             const query = {parking_id:parkingId} ;
             const projection = { }
 /*
-                Parking.update({location:"ecjtu"}, {$set:{location:"HDJD"}}, function (error) {  
-                    if (error){  
-                        console.error(error);  
+                Parking.update({location:"ecjtu"}, {$set:{location:"HDJD"}}, function (error) {
+                    if (error){
+                        console.error(error);
                     }
-                    else{  
-                        console.error("更新用户名成功")  
-                    }  
-                }); 
-                                     
+                    else{
+                        console.error("更新用户名成功")
+                    }
+                });
+
 */
             Parking.find(query,(err,parkinghistory)=>{
                 if(err){
@@ -119,10 +174,10 @@ class ParkingService {
                     console.log(chalk.green("Data from mongodb is here"));
                     console.log(chalk.green(parkinghistory));
                     resolve(parkinghistory)
-                }                  
+                }
             })
 
-      /*    var data =   [{     
+      /*    var data =   [{
                 parking_id: "BC12345120456",
                 license_id: "京A BC123",
                 parkinglot: "陆家嘴国购停车场",
@@ -137,7 +192,7 @@ class ParkingService {
             }]
             if (id==0) {
 
-                console.log(chalk.yellow('error!!')); 
+                console.log(chalk.yellow('error!!'));
 
                 reject(new Error('You can not get parkingHistorry!'))
             }
@@ -151,66 +206,66 @@ class ParkingService {
     };
 
 
-      
 
-    startParking(id){
+
+    startParking(parkingId){
 
         return new Promise((resolve,reject)=>{
-            const query = {parking_id:"123" };
-            const projection = {_id:0, parking_id:1 , parkingSlots:1 };
-            
+            const query = {parking_id:3388 };
+            const projection = { };
+
             Parking.findOne(query,projection,(err,parking_id)=>{
                 if (err){
                     reject(new Error("Fail to start Parking!"))
                 }
-                else 
+                else
                     resolve(parking_id)
             })
 /*
             var data =  {
                 parkinglot: "陆家嘴国购停车场",
                 parking_id: "BC12345120456",
-                      
+
                 license_id: "京A BC123",
-                timeStamp: "2015/8/21 15:20:00", 
-                 
-                status:"occupation_start"   
+                timeStamp: "2015/8/21 15:20:00",
+
+                status:"occupation_start"
             }
 
             if(id==0){
                 reject(new Error('There is an error wtth starting parking!'))
-            }  
+            }
             else resolve(data)
 */
         })
     }
 
 
-    stopParking(id){
+    stopParking(parkingId){
         return new Promise((resolve,reject) => {
-            const query = {parking_id:"10"}
-            const projection = {_id:0, parking_id:1  }
-            Parking.findOne(query,projection,(err,paking_id)=>{
-                if(err){
+            const query = {parking_id:9999}
+            const projection = {  }
+            Parking.findOne(query,projection,(err,parking_id)=>{
+                if(err) {
                     reject(new Error("Fail to stop parking!"))
                 }
-                else 
+                else
                     resolve(parking_id)
             })
 /*
             var data = {
                 parkinglot: "陆家嘴国购停车场",
                 parking_id: "BC12345120456",
-                    
+
                 license_id: "京A BC123",
-                timeStamp: "2015/8/21 15:20:00", 
-               
-                status:"occupation_end"   
+                timeStamp: "2015/8/21 15:20:00",
+
+                status:"occupation_end"
             }
-            
+
             if (id == 0){
                 console.log(chalk.yellow('error!!'))
-                reject(new Error('Fail to stopParking!')) 
+                reject(new Error('Fail to stopParking!'))
             }
             else {
                 resolve(data)
@@ -233,7 +288,7 @@ class ParkingService {
                 }
                 else {
                     resolve(parking_id)
-                    console.log(chalk.green(parkingId))  
+                    console.log(chalk.green(parkingId))
 
                 }
             })
@@ -257,7 +312,7 @@ class ParkingService {
                     "address": "Musterstraße 5", // optional
                     "lot_type": "Parkhaus" // optional
                 }],
-                       
+
             }
 
             if(id==0){reject(new Error('Fail to get parking infomation! ')) }
@@ -277,7 +332,7 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to get space status!"))
                 }
-                else 
+                else
                     resolve(status)
             })
 
@@ -327,19 +382,19 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to get parking_id!"))
                 }
-                else 
+                else
                     resolve(parking_id)
             })
 /*
         var data = {test:"test getParkingId"}
 
         if(id==0){ reject(new Error('fail to get data!'))}
-        else resolve  (data)  
-*/           
+        else resolve  (data)
+*/
         })
     }
 
-/*   
+/*
     getSpaceId (id){
         return new Promise((resolve,reject)=>{
             const query = {parking_id}
@@ -348,20 +403,20 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to get space status!"))
                 }
-                else 
+                else
                     resolve(parking_id)
                 })
 
-          
+
         var data = {test:"test getSpaceId "}
 
         if(id==0){ reject(new Error('fail to get data!'))}
-        else resolve  (data) 
+        else resolve  (data)
 
         })
     }
 
-*/ 
+*/
     illegalParking (id){
         return new Promise((resolve,reject)=>{
             var query = {parking_id:1 }
@@ -370,17 +425,17 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to get illegalParking !"))
                 }
-                else 
+                else
                     resolve(parking_id)
             })
        //   var data = {test:"test illegalParking "}
 
-       
+
         })
     }
-      
 
- 
+
+
 
 
     modifyThePrices(parking_id){
@@ -391,17 +446,17 @@ class ParkingService {
                 if(err){
                     reject(new Error("Fail to modify the price!"))
                 }
-                else 
+                else
                     resolve(prices)
-            
+
             })
         })
     }
 
 
-   
+
 
 
 }
 
-module.exports = ParkingService;  
+module.exports = ParkingService;

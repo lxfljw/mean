@@ -13,7 +13,7 @@ var _ = require('lodash'),
   const chalk = require('chalk');
 
 
- 
+
 //ParkingService
 //------------------------------------------------------------------------------------------//
 exports.getEvents= function (req, res,next) {
@@ -25,8 +25,8 @@ exports.getEvents= function (req, res,next) {
 				               return  res.status(200).json(getEvents)
 				               }).catch(next)
 				    console.log(chalk.blue('function getEvents is OK'))
-				              
-					 
+
+
 				}
 
 exports.getSpaceIdStatus= function (req, res,next) {
@@ -37,7 +37,7 @@ exports.getSpaceIdStatus= function (req, res,next) {
 				                 .then( spaceid =>{
 				              res.status(200).json(spaceid)
 				               }).catch(next)
-					 
+
 				}
 
 exports.updateSpaceIdStatus= function (req, res,next) {
@@ -48,7 +48,7 @@ exports.updateSpaceIdStatus= function (req, res,next) {
 				                 .then( updatespaceidstatus =>{
 				               return res.status(200).json(updatespaceidstatus )
 				               }).catch(next)
-					 
+
 				}
 
 
@@ -59,9 +59,9 @@ exports.modifyThePrices= function (req, res,next) {
 				                 .then(  modifytheprices=>{
 				              res.status(200).json( modifytheprices)
 				               }).catch(next)
-					 
+
 				}
- 
+
 
 exports.ownerGetParkingId= function (req, res,next) {
 				   var parkingService = new ParkingService()
@@ -70,7 +70,7 @@ exports.ownerGetParkingId= function (req, res,next) {
 				                 .then( parkingInfo =>{
 				               return res.status(200).json(parkingInfo)
 				               }).catch(next)
-					 
+
 				}
 
 //------------------------------------------------------------------------------------------//
@@ -85,14 +85,14 @@ exports.ownerGetParkingId= function (req, res,next) {
  //Transaction
  //------------------------------------------------------------------------------------------//
 exports.getLog= function (req, res,next) {
-	               console.log(chalk.blue('function getLog is running')) 	 
+	               console.log(chalk.blue('function getLog is running'))
 				   var parkingService = new ParkingService()
-				   var id = req.query.type,distance = req.query.distance;
-				   parkingService.getLog(id)
+				   var parking_id = req.params.parking_id,distance = req.query.distance;
+				   parkingService.getLog(parking_id)
 				                 .then( getlog =>{
 				              res.status(200).json(getlog)
 				               }).catch(next)
-				  
+
 				}
 
 
@@ -104,7 +104,7 @@ exports.parkingHistory= function (req, res,next) {
 				                 .then( gethistory =>{
 				               return res.status(200).json(gethistory)
 				               }).catch(next)
-					 
+
 				}
 
 
@@ -116,10 +116,10 @@ exports.getUserTransactionHistory= function (req, res,next) {
 				                 .then( guestID =>{
 				               return res.status(200).json(guestID)
 				               }).catch(next)
-					 
-				}				
+
+				}
 //------------------------------------------------------------------------------------------//
- 
+
 
 
 
@@ -131,7 +131,7 @@ exports.OwnerGetUserInfo= function (req, res,next) {
 				                 .then( username =>{
 				               return res.status(200).json(username)
 				               }).catch(next)
-					 
+
 				}
 
 
@@ -140,7 +140,7 @@ exports.OwnerGetUserInfo= function (req, res,next) {
 
 
 
-//BookingService				
+//BookingService
 //------------------------------------------------------------------------------------------//
 
 

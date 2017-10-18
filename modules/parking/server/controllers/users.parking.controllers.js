@@ -8,6 +8,7 @@ var _ = require('lodash'),
 	  multer = require('multer'),
 	  config = require(path.resolve('./config/config')),
 	  validator = require('validator');
+var TransactionService= require('./TransactionService');
 var ParkingService= require('./ParkingService');
 var UserService= require('./UserService');
 var PaymentService= require('./PaymentService');
@@ -20,17 +21,19 @@ const chalk = require('chalk');
 //------------------------------------------------------------------------------------------//
 exports.userGetInfo = function (req,res,next) {
 		var userService = new UserService()
-		var id = req.query.name, distance = req.query.distance; 
+		var id = req.query.name, distance = req.query.distance;
 		userService.userGetInfo(id)
                .then(usergetinfo=>{
                	console.log(chalk.green("Here will print user info "))
 
-					    return      
+					    return
 					    res.status(200).json(usergetinfo)
 		        }).catch(next)
 }
 
- 
+
+
+
 //------------------------------------------------------------------------------------------//
 
 
@@ -40,10 +43,10 @@ exports.userGetInfo = function (req,res,next) {
 //------------------------------------------------------------------------------------------//
 exports.reserveParking = function (req,res,next) {
 		var bookingService = new BookingService()
-		var parking_id = req.query.parking_id, distance = req.query.distance; 
+		var parking_id = req.query.parking_id, distance = req.query.distance;
 		bookingService.reserveParking(parking_id)
 		        .then(reserveparking=>{
-	            		res.status(200).json(reserveparking) 	
+	            		res.status(200).json(reserveparking)
 	            }).catch(next)
 }
 
@@ -61,7 +64,7 @@ exports.cancleReservetion = function (req,res,next) {
 
 
 
- 
+
 
 //ParkingService
 //------------------------------------------------------------------------------------------//
@@ -69,7 +72,7 @@ exports.searchParking = function (req,res,next) {
 
 	    var parkingService = new ParkingService()
 	//新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
-	
+
 	    // 做req.params.id 的验证（获取数据之前要验证）
 	    var parking_id=req.query.parking_id,distance=req.query.distance;
 	    var location=req.query.location,distance=req.query.distance;
@@ -84,11 +87,12 @@ exports.searchParking = function (req,res,next) {
 
 exports.startParking = function (req,res,next) {
 		var parkingService = new ParkingService()
-		var id = req.query.type,distance = req.query.distance;
-		parkingService.startParking(id)
+		console.log(chalk.green("startParking in controllers"));
+	  var parking_id = req.query.parking_id,distance = req.query.distance;
+		parkingService.startParking(parking_id)
 		        .then(startparking=>{
-		            	res.status(200).json(startparking)
-		        }).catch(next)		  
+		           return 	res.status(200).json(startparking)
+		        }).catch(next)
 }
 
 
@@ -96,15 +100,15 @@ exports.startParking = function (req,res,next) {
 exports.stopParking = function (req,res,next) {
 		console.log(chalk.blue('Function stopParking is ok !'));
 		var parkingService= new ParkingService();
-		var id = req.query.type,distance = req.query.distance;
-		parkingService.stopParking(id)
+		var parking_id = req.query.parking_id,distance = req.query.distance;
+		parkingService.stopParking(parking_id)
 		        .then(stopparking =>{
-	            		res.status(200).json(stopparking) 
+	            return		res.status(200).json(stopparking)
 		        }).catch(next)
-        console.log(chalk.blue('type= '+id));
+
 }
 //------------------------------------------------------------------------------------------//
-		 
+
 
 
 
@@ -113,13 +117,13 @@ exports.stopParking = function (req,res,next) {
 //------------------------------------------------------------------------------------------//
 exports.userParkingHistory= function (req,res,next) {
         console.log(chalk.blue('Function parkinghistory is ok !'));
-	    var parkingService = new ParkingService()
+	    var transactionService = new TransactionService()
 	    var user_id = req.query.type;
 	    console.log(chalk.green(user_id));
-        Transaction.parkingHistory(user_id)
+        transactionService.parkingHistory(user_id)
                 .then(parkinghistory =>{
                 		console.log(chalk.green("callbackData: "+parkinghistory));
-          		return res.status(200).json(parkinghistory)	
+          		return res.status(200).json(parkinghistory)
 				}).catch(next)
 }
 //------------------------------------------------------------------------------------------//
@@ -134,26 +138,28 @@ exports.userParkingHistory= function (req,res,next) {
 exports.manualPayment= function (req,res,next) {
         var parkingService = new ParkingService()
 //新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
-	    var id = req.query.type,distance=req.query.distance;
-	    parkingService.manualPayment(id)
+	    var parking_id = req.query.parking_id,distance=req.query.distance;
+	    parkingService.manualPay(parking_id)
 	            .then(payment=>{
 	                	res.status(200).json(payment)
-	            }).catch(next)			
+	            }).catch(next)
 }
 
 //------------------------------------------------------------------------------------------//
 
 
- 
- 
+
+
 //CouponsService
 //------------------------------------------------------------------------------------------//
-exports.usersCoupons= function (req,res,next) {
-		var paymentService = new PaymentService()
-		var id = req.query.type,distance=req.query.distance;
-		paymentService.usersCoupons(id)
-		        .then(coupons =>{
-		        		res.status(200).json(coupons)
-		        }).catch(next)  
+exports.usersCoupons = function (req,res,next) {
+		var userService = new UserService()
+		var name = req.query.name, distance = req.query.distance;
+		userService.usersCoupons(name)
+               .then(coupons=>{
+               	console.log(chalk.green("Here will print user info "))
+					      return   res.status(200).json(coupons)
+		        }).catch(next)
 }
- //------------------------------------------------------------------------------------------//           
+
+ //------------------------------------------------------------------------------------------//

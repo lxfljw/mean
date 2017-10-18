@@ -15,8 +15,25 @@ import User from '../models/UserProfile.server.models';
 class UserService{
 
 
+  usersCoupons(name){
+        return new Promise((resolve,reject)=>{
+            const query = {name:"lxf" }
+            const projection = {  }
+                User.findOne(query,projection,(err,coupons)=>{
+                    if (err){
+                        reject(new Error("This user is not exist!"))
+                    }
+                    else resolve(coupons)
+                })
+        })
+    }
+
+
+
+
+
     userGetInfo(id){
-           
+
         return new Promise((resolve,reject)=>{
           const query = {username:"user3"}
           const projection = {_id:0 }
@@ -26,22 +43,22 @@ class UserService{
           	}
           	else resolve(userinfo)
           })
-         /* 
+         /*
           User.create({
             name: "lxf",
             email:"934782385@qq.com",
-            
+
             mobile:15279189307
           })*/
-          
-/*          
+
+/*
           var data = {
                       name:"xxx",
                       mobile:"392928181",
-                      email:"38828282@qq.com", 
+                      email:"38828282@qq.com",
                       cars:[
-                       
-                          { "license": "京A BC123" }, 
+
+                          { "license": "京A BC123" },
                           { "license": "京B BC123" }
                        ]
                     }
@@ -54,7 +71,7 @@ class UserService{
       }
 
 
-  
+
 
 
 
@@ -64,30 +81,30 @@ class UserService{
         return new Promise((resolve,reject)=>{
             const query = {username:"lxf" }
             const projection = {_id:0, username:1 }
-             
+
                 User.findOne(query,projection,(err,username)=>{
                   	if (err){
                   		  reject(new Error("This user is not exist!"))
                   	}
                 	  else resolve(username)
-                })                   
+                })
         })
     }
-          
 
 
-    
 
 
-   
 
 
-   
+
+
+
+
 
 
 
     getHistory(id){
-           
+
         return new Promise((resolve,reject)=>{
               const query = {username:"lxf" }
               const projection = {_id:0, username:1 }
@@ -97,28 +114,28 @@ class UserService{
               	}
               	else resolve(username)
               })
-             
-             
+
+
         })
     }
 
 
-  
+
 
 
     userHistory(id){
         return new Promise((resolve,reject)=>{
-            const query = {username:"lxf" }
-            const projection = {_id:0, username:1 }
+            const query = {name:"lxf" }
+            const projection = {  }
             User.findOne(query,projection,(err,username)=>{
               	if (err){
               		  reject(new Error("This user is not exist!"))
                 }
               	else resolve(username)
             })
-         
-             
-       
+
+
+
 
 /*            var data =   [{
                 parking_id: "BC12345120456",
@@ -134,15 +151,15 @@ class UserService{
               }]
 
             if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
+            else resolve  (data)
 */
         })
     }
-                   
+
     userInfo(username){
-           
+
         return new Promise((resolve,reject)=>{
-            const query = {name:username }
+            const query = {name:'lxf' }
             const projection = {  }
             User.findOne(query,projection,(err,username)=>{
             	if (err){
@@ -150,17 +167,17 @@ class UserService{
             	}
             	else resolve(username)
             })
-               
-             
-      
+
+
+
 /*
-            var data = 
+            var data =
                {
                 name:'xxx',
                 mobile:"392928181",
                 email:"38828282@qq.com",
-                
-                cars:[{   
+
+                cars:[{
                              "license": "京A BC123"
                         }, {
                              "license": "京B BC123"
@@ -168,7 +185,7 @@ class UserService{
                }
 
             if(id==0){ reject(new Error('fail to get data!'))}
-            else resolve  (data)  
+            else resolve  (data)
             	*/
         })
     }

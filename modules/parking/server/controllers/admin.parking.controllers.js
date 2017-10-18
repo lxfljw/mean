@@ -11,33 +11,34 @@ var _ = require('lodash'),
   var ParkingService= require('./ParkingService');
   var BookingService= require('./BookingService');
   var PaymentService= require('./PaymentService');
+  var UserService= require('./UserService');
   const chalk = require('chalk');
- 
 
+ 
 //UserService
 //------------------------------------------------------------------------------------------//
 exports.getUserInfo = function (req, res,next) {
          var userService = new UserService()
-         var id = req.query.type, distance = req.query.distance; 
-         userService.userInfo(id)
+         var name = req.query.name, distance = req.query.distance;
+         userService.userInfo(name)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)
-  
+   
 }
 
 //Transaction
  //------------------------------------------------------------------------------------------//
 exports.getUserTransaction = function (req, res,next) {
 
-         var parkingService = new ParkingService()
-         var id = req.query.type, distance = req.query.distance; 
-         parkingService.userHistory(id)
+         var userService = new UserService()
+         var name = req.query.name, distance = req.query.distance;
+         userService.userHistory(name)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)
         }
-
+ 
 //BookingService
 //------------------------------------------------------------------------------------------//
 
@@ -45,7 +46,7 @@ exports.getUserTransaction = function (req, res,next) {
 exports.getUserBooking= function (req, res,next) {
 
          var bookingService = new BookingService()
-         var id = req.query.type, distance = req.query.distance; 
+         var id = req.query.type, distance = req.query.distance;
         bookingService.userHistory(id)
                        .then( data =>{
                     res.status(200).json(data)
@@ -72,21 +73,21 @@ exports.getUserBooking= function (req, res,next) {
 
 exports.illegalParking = function (req, res,next) {
          var parkingService = new ParkingService()
-         var id = req.query.type, distance = req.query.distance; 
+         var id = req.query.type, distance = req.query.distance;
          parkingService.illegalParking(id)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)
- 
+
 
 }
 
- 
+
 
 
 exports.getParkingStatus = function (req, res,next) {
          var parkingService = new ParkingService()
-         var id = req.query.type, distance = req.query.distance; 
+         var id = req.query.type, distance = req.query.distance;
          parkingService.getParkingId(id)
                        .then( data =>{
                     res.status(200).json(data)
@@ -97,7 +98,7 @@ exports.getParkingStatus = function (req, res,next) {
 
 exports.getParkingHistory = function (req, res,next) {
          var parkingService = new ParkingService()
-         var parking_id = req.params.parking_id, distance = req.query.distance; 
+         var parking_id = req.params.parking_id, distance = req.query.distance;
          parkingService.getParkingId(parking_id)
                        .then( data =>{
                     res.status(200).json(data)
@@ -109,12 +110,12 @@ exports.getParkingHistory = function (req, res,next) {
 
 exports.getSpaceId = function (req, res,next) {
          var parkingService = new ParkingService()
-         var id = req.query.type, distance = req.query.distance; 
+         var id = req.query.type, distance = req.query.distance;
          parkingService.getSpaceId(id)
                        .then( data =>{
                     res.status(200).json(data)
                      }).catch(next)
-          
+
 
 
 }

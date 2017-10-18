@@ -27,9 +27,9 @@ class PaymentService{
                  reject(new Error("This coupon is not exist!"))
             	}
             	else resolve(coupon)
-            }) 
-
-  /*           
+            })
+ 
+  /*
               var data =  [{
                               id:"2323",
                               header: "1 hr Free",
@@ -47,12 +47,12 @@ class PaymentService{
                               images: "kuogo_logo.png"
                           }]
 
-             if (id==0) { reject(new Error ('An error An error occured fetching a coupon'))} 
-             else resolve(data) ;       
+             if (id==0) { reject(new Error ('An error An error occured fetching a coupon'))}
+             else resolve(data) ;
 */
             })
     };
-          
+
 
 
 		manualPayment(id){
@@ -66,8 +66,8 @@ class PaymentService{
             	}
             	else resolve(price)
             })
-				             
-				             
+
+
 
 /*
 	                        var data = {
@@ -82,8 +82,8 @@ class PaymentService{
 	                        paid: "5.00",
 	                        payment_total: "10.00",
 	                        test: "test"
-	                      }     
-	                   
+	                      }
+
                       if (id == 0){
                         const chalk = require('chalk');
                         console.log(chalk.yellow('error'));
