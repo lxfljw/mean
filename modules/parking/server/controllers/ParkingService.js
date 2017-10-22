@@ -10,7 +10,7 @@ CarModel = mongoose.model('carmodels'),
 User = mongoose.model('userprofiles'),
 Transaction = mongoose.model('transactions'),
 Parking = mongoose.model('parkingmodels');
-
+Restaurants=mongoose.model('restaurants');
 class ParkingService {
 
   manualPay(parkingId){
@@ -82,14 +82,16 @@ class ParkingService {
             })
         })
     }
-
+ 
 
     // parking_type == 'indoor'  'outdoor'
     searchParking(parking_id,location,price)  {
         return new Promise((resolve, reject) => {
 
-            const query = {price:200}
-            const projection = { }
+            const query = {parking_id:6666};
+            const projection = {  };
+           
+            
 /*
             Parking.update(
                 {_id: "59e0acbbfd19280e6a9b0c65"},
@@ -105,11 +107,18 @@ class ParkingService {
             )
 
 */
-            Parking.find(query, projection, (err, parkings) => {
+            
+            // query = { 'parking_id':6666,'parkingSlots.$.coordinates':1 } 
+
+            Parking.find(query)
+                   .populate({path:'geoocation.coordinates'})
+                   .exec(function(err, parkingSlots){
                 if (err) {
-                    reject(new Error('An error occured fetching a parking_id ')) }
+                    console.log(chalk.red(err));
+                    reject(new Error('An error occured fetching a parking_id ')) 
+                }
                 else
-                    resolve(parkings);
+                    resolve(parkingSlots);
             });
 
 /*
