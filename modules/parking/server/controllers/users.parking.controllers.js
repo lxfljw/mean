@@ -67,6 +67,8 @@ exports.cancleReservetion = function (req,res,next) {
 
 
 //ParkingService
+
+//
 //------------------------------------------------------------------------------------------//
 exports.searchParking = function (req,res,next) {
 
@@ -77,13 +79,39 @@ exports.searchParking = function (req,res,next) {
 	    var parking_id=req.query.parking_id,distance=req.query.distance;
 	    var location=req.query.location,distance=req.query.distance;
 	    var price=req.query.price,distance=req.query.distance;
-		parkingService.searchParking(parking_id,location,price)
+	    var lng = req.query.lng,lat = req.query.lat;
+	    var type=req.query.type;
+
+	    var limitVal = req.query.$limit,
+        skipVal = req.query.$skip,
+        limit =(isNaN(limitVal)) ? 0 : parseInt(req.query.$limit, 10),
+        skip = (isNaN(skipVal)) ? 0 : parseInt(req.query.$skip, 10);
+     
+		parkingService.searchParking(parking_id,location,price,distance,type,lng,lat,limit,skip)
 		        .then(parkings => {
 		                //获得电影的id
 		        		return   res.status(200).json(parkings)
 		                 //获取成功
 		        }).catch(next)
 }
+
+exports.searchParkingByName = function (req,res,next) {
+
+	    var parkingService = new ParkingService()
+	//新建服务 parkingService   通过new 实例化  parkingService是类的实例instance
+
+	    // 做req.params.id 的验证（获取数据之前要验证）
+	    var parkingnames = eval(req.query.parkingnames);
+	    //var parkingnames = eval(req.query.member);
+	    console.log(chalk.blue(parkingnames));
+		parkingService.searchParkingByName(parkingnames)
+		        .then(parkings => {
+		                //获得电影的id
+		        		return   res.status(200).json(parkings)
+		                 //获取成功
+		        }).catch(next)
+}
+
 
 exports.startParking = function (req,res,next) {
 		var parkingService = new ParkingService()

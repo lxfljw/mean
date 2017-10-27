@@ -14,6 +14,8 @@ module.exports = function (app) {
     app.route('/v1/users/self/pay').post(users.manualPayment);
     app.route('/v1/users/self/coupons').get(users.usersCoupons);
     app.route('/v1/parking/search').post(users.searchParking);
+    app.route('/v1/parking/searchByName').post(users.searchParkingByName);
+
 
 
   // Finish by binding the user middleware

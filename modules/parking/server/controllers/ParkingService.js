@@ -9,8 +9,8 @@ var mongoose = require('mongoose'),
 CarModel = mongoose.model('carmodels'),
 User = mongoose.model('userprofiles'),
 Transaction = mongoose.model('transactions'),
-Parking = mongoose.model('parkingmodels');
-Restaurants=mongoose.model('restaurants');
+Parking = mongoose.model('parkingmodels'),
+GeoLocation = mongoose.model('geolocations');
 class ParkingService {
 
   manualPay(parkingId){
@@ -85,76 +85,72 @@ class ParkingService {
  
 
     // parking_type == 'indoor'  'outdoor'
-    searchParking(parking_id,location,price)  {
+    searchParking(parking_id,location,price,distance,type,lng,lat,limit,skip)  {
         return new Promise((resolve, reject) => {
+               const query = { };
+               const projection = {  };
+               var myCoordinate = [lng,lat];
+               if (parking_id){ 
+                    query['parking_id']=parking_id
+               }
 
-            const query = {parking_id:6666};
-            const projection = {  };
+               if (location){ 
+                    query['location']=location
+               }
+
+               if (price){ 
+                    query['price']=price
+               }
+
+               if (distance){ 
+                    query['coordinate']=
+                    { $geoWithin:
+                    { $centerSphere: 
+                    [  myCoordinate,distance/3963.2 ] } }
+               } 
+
+
+               if (type){ 
+                    query['type']=type
+               }
+
+                console.log(chalk.green('limit:'+limit+'  skip:'+skip))       
+                Parking.find(query,projection,{limit:limit,skip:skip},(err,doc)=>{
+                     if(err){
+                            reject(new Error("nonono"))
+                } 
+                    else resolve(doc);
+           })    
            
             
-/*
-            Parking.update(
-                {_id: "59e0acbbfd19280e6a9b0c65"},
-                {$set:{parking_id:parking_id,location:location,price:price}},
-                function(err){
-                    if(err){  console.log(chalk.red("fail to Update and there is ErrorType => "+err)) }
-                    else {
-                        console.error(chalk.green("更新用户名成功!")) ;
-                        console.error(chalk.yellow("new parking_id:"+parking_id+"   new location:"+location+"   new price:"+price))    ;
-                    }
-
-                }
-            )
-
-*/
-            
-            // query = { 'parking_id':6666,'parkingSlots.$.coordinates':1 } 
-
-            Parking.find(query)
-                   .populate({path:'geoocation.coordinates'})
-                   .exec(function(err, parkingSlots){
-                if (err) {
-                    console.log(chalk.red(err));
-                    reject(new Error('An error occured fetching a parking_id ')) 
-                }
-                else
-                    resolve(parkingSlots);
-            });
-
-/*
-            var data = {
-                "type": "FeatureCollection",   "features":[
-                    {    "type": "Feature",
-                          "geometry":
-                        {   "type": "Point",   "coordinates":
-                           [ 114.2385783,22.50228736 ]
-                        },
-                       "properties":
-                            {
-                                "cate":"不收費路旁泊車位",
-                                "type":"路旁泊車位-不收費",
-                                "name eng":"",
-                                "name_chi":"路旁泊車位: 新娘潭路",
-                                "address":"",
-                                "district":"大埔",
-                                "icon":"small_blue",
-                                "icon_large":"large_blue",
-                                "paid":"",
-                                "free":"不收費用的泊車位數目:汽車 / 小型貨車:18",
-                                "easting":842617,    "norting":840297.5
-                            }
-                    }
-                ]
-            }
-
-            if (id==0) { reject(new Error('An error occured fetching a parking_id '))}
-            else resolve(data);
-  */
+      
         })
     } ;
 
 
+    searchParkingByName(parkingnames)  {
+        return new Promise((resolve, reject) => {
+               const query = [];
+               const projection = {  };
+               var parkingname; 
+               
+              
+               for (parkingname in parkingnames){
+                    
+                    query.push({"parking_id": parkingnames[parkingname].parking_id});
+                    
+               }
 
+                Parking.find({$or:query},projection,(err,doc)=>{
+                     if(err){
+                            reject(new Error("nonono"))
+                     } 
+                     else resolve(doc);
+                }) 
+            
+      
+                })
+    } ;
 
 
     parkingHistory(parkingId){

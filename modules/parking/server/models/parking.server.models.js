@@ -16,6 +16,7 @@ const parkingSchema = Schema({
           location: { type: String },
           price:{type:Number } ,
           type : {type:String},
+          name:{type:String},
 
           parkingType : {type:String},                    
           parkingOwner : {type:String},       
@@ -23,10 +24,8 @@ const parkingSchema = Schema({
           address: { type: String },
           createdAt : Date,
           updatedAt : Date,
-          geoLocation : {
-              type: {type:String},
-              coordinates:{type: Schema.Types.ObjectId,ref: 'restaurants'}
-          },
+          coordinate:{ lng:Number,lat:Number },  
+          
           parkingArea : String,
           parkingAreaType : String,  
             
@@ -38,14 +37,9 @@ const parkingSchema = Schema({
           Attendant: Date,
           ticketingSystem : String,  
               
-          parkingSlots : [
-              {
-                  slotId : Number,
-                  type : String, 
-                  status : Number,
+          parkingSlots : [{  slotId : Number,type : String,  status : Number, }]  
                   //coordinates:{ type: Schema.Types.ObjectId, ref: 'restaurants' }
-              }
-          ]   
+            
      
 });
 
