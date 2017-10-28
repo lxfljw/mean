@@ -10,10 +10,12 @@
 
  
 
-const  geoLocationSchema = Schema({
-     coordinate:{lng: Number,lat:Number},
-     type:{type:String},
-     name:{type:String} 
-});
+const  geoLocationSchema = new Schema({
+    location:[{
+       	coordinate:{lng: Number,lat:Number},
+      	type:String,
+      	name:String 
+    }]
+ });
 
 mongoose.model('geolocations',geoLocationSchema);

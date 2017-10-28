@@ -12,15 +12,16 @@
 
 const transactionSchema = Schema({
   
-  startTime: { type: Date },
+  startTime: { type: Date,default:new Date() },
   endTime: { type: Date },
   price: { type: Number },
-  hostID: { type: Schema.Types.ObjectId, required: true },
-  guestID: { type: Schema.Types.ObjectId, required: true,ref:'userprofiles' },
-  lotID: { type: Schema.Types.ObjectId }
+
+  //parking_id
+  hostID: { type: Schema.Types.ObjectId, required: true,ref:'parkingmodels' },
+  userID: { type: Schema.Types.ObjectId, required: true,ref:'userprofiles' },
+  //lotID: { type: Schema.Types.ObjectId }
   
 
 });
 
-var Transaction = mongoose.model('transactions', transactionSchema);
-module.exports = Transaction; 
+ mongoose.model('transactions', transactionSchema);

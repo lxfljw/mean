@@ -87,7 +87,7 @@ class ParkingService {
     // parking_type == 'indoor'  'outdoor'
     searchParking(parking_id,location,price,distance,type,lng,lat,limit,skip)  {
         return new Promise((resolve, reject) => {
-               const query = { };
+               const query = {};
                const projection = {  };
                var myCoordinate = [lng,lat];
                if (parking_id){ 
@@ -108,14 +108,17 @@ class ParkingService {
                     { $centerSphere: 
                     [  myCoordinate,distance/3963.2 ] } }
                } 
-
+ 
 
                if (type){ 
                     query['type']=type
                }
 
-                console.log(chalk.green('limit:'+limit+'  skip:'+skip))       
-                Parking.find(query,projection,{limit:limit,skip:skip},(err,doc)=>{
+//----------------------------------------------------------------------------------
+              
+//----------------------------------------------------------------------------------
+
+               GeoLocation.find(query,projection,{limit:limit,skip:skip},(err,doc)=>{
                      if(err){
                             reject(new Error("nonono"))
                 } 
@@ -210,22 +213,34 @@ class ParkingService {
         })
     };
 
+ 
 
 
-
-    startParking(parkingId){
+    startParking(startStatus,userID){
 
         return new Promise((resolve,reject)=>{
-            const query = {parking_id:3388 };
+            var doc = {
+                   // startTime: startTime,
+                    //endTime: 12,
+                    price: 100,
+                   // hostID:ObjectId("59f2d0244e0840fd0c342f2a") ,
+                   // userID:ObjectId("59e0617f450ced2138481ac7") 
+            };
             const projection = { };
-
-            Parking.findOne(query,projection,(err,parking_id)=>{
-                if (err){
-                    reject(new Error("Fail to start Parking!"))
-                }
-                else
-                    resolve(parking_id)
-            })
+            console.log(chalk.blue("startparking"))
+            if (startStatus==1){
+                var startTime = new Date();
+                console.log(startTime)
+                Transaction.create({price:0,startTime:startTime, hostID:"59f2d0244e0840fd0c342f2a" ,
+                   userID:"59e0617f450ced2138481ac7" },function(err,doc){
+                    console.log(doc);
+                    resolve(doc._id)
+                    if(err){
+                        reject(err)
+                    }
+                    else resolve(doc._id)
+                })
+            }
 /*
             var data =  {
                 parkinglot: "陆家嘴国购停车场",
@@ -246,16 +261,24 @@ class ParkingService {
     }
 
 
-    stopParking(parkingId){
+    stopParking(stopStatus,transactionID){
         return new Promise((resolve,reject) => {
-            const query = {parking_id:9999}
+            const query = { _id:transactionID}
+            console.log(transactionID)
             const projection = {  }
-            Parking.findOne(query,projection,(err,parking_id)=>{
+            Transaction.find(query,projection)
+                       .populate('hostID userID')
+                       .exec((err,doc)=>{
                 if(err) {
                     reject(new Error("Fail to stop parking!"))
                 }
-                else
-                    resolve(parking_id)
+                else{
+                     var endTime = new Date();
+                     Transaction.update({_id:transactionID},{$set:{price:100,endTime:endTime}},(err,doc)=>{
+                        resolve(doc)
+                     })    
+                   
+                }
             })
 /*
             var data = {

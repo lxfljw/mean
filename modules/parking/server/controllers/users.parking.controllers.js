@@ -112,12 +112,15 @@ exports.searchParkingByName = function (req,res,next) {
 		        }).catch(next)
 }
 
-
+ 
 exports.startParking = function (req,res,next) {
 		var parkingService = new ParkingService()
-		console.log(chalk.green("startParking in controllers"));
-	  var parking_id = req.query.parking_id,distance = req.query.distance;
-		parkingService.startParking(parking_id)
+		
+	    var parking_id = req.query.parking_id,distance = req.query.distance;
+	    var startStatus =req.query.startStatus;
+	    var userID =req.query.userID;
+        
+		parkingService.startParking(startStatus,userID)
 		        .then(startparking=>{
 		           return 	res.status(200).json(startparking)
 		        }).catch(next)
@@ -128,8 +131,9 @@ exports.startParking = function (req,res,next) {
 exports.stopParking = function (req,res,next) {
 		console.log(chalk.blue('Function stopParking is ok !'));
 		var parkingService= new ParkingService();
-		var parking_id = req.query.parking_id,distance = req.query.distance;
-		parkingService.stopParking(parking_id)
+		var stopStatus = req.query.stopStatus,distance = req.query.distance;
+		var transactionID = req.query.transactionID;
+		parkingService.stopParking(stopStatus,transactionID )
 		        .then(stopparking =>{
 	            return		res.status(200).json(stopparking)
 		        }).catch(next)

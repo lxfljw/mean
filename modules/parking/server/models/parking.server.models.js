@@ -33,11 +33,11 @@ const parkingSchema = Schema({
           openTime : Date,
           closeTime : Date,
            
-         
+          
           Attendant: Date,
           ticketingSystem : String,  
               
-          parkingSlots : [{  slotId : Number,type : String,  status : Number, }]  
+          //parkingSlots : [{ slotId : Number,type : String,  status : Number} ] 
                   //coordinates:{ type: Schema.Types.ObjectId, ref: 'restaurants' }
             
      
